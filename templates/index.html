@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZUWE-ACM — 在线编程练习</title>
+    <!-- CodeMirror -->
+    <link rel="stylesheet" href="/static/codemirror/codemirror.min.css" />
+    <link rel="stylesheet" href="/static/codemirror/theme/monokai.min.css" />
+    <link rel="stylesheet" href="/static/codemirror/addon/hint/show-hint.min.css" />
+    <link rel="stylesheet" href="/static/codemirror/addon/fold/foldgutter.min.css" />
+    <script src="/static/codemirror/codemirror.min.js"></script>
+    <script src="/static/codemirror/mode/python/python.min.js"></script>
+    <script src="/static/codemirror/mode/clike/clike.min.js"></script>
+    <script src="/static/codemirror/addon/edit/closebrackets.min.js"></script>
+    <script src="/static/codemirror/addon/hint/show-hint.min.js"></script>
+    <script src="/static/codemirror/addon/hint/anyword-hint.min.js"></script>
+    <script src="/static/codemirror/addon/fold/foldcode.min.js"></script>
+    <script src="/static/codemirror/addon/fold/foldgutter.min.js"></script>
+    <script src="/static/codemirror/addon/fold/brace-fold.min.js"></script>
+    <script src="/static/codemirror/addon/fold/xml-fold.min.js"></script>
+    <script src="/static/codemirror/addon/fold/indent-fold.min.js"></script>
+    <script src="/static/codemirror/addon/comment/comment.min.js"></script>
+        <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+    <!-- 全局加载遮罩 -->
+    <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div></div>
+    <div class="app-header">
+        <div class="brand">
+            <span class="brand-dot"></span>
+            <h1>ZUWE-ACM</h1>
+        </div>
+        <div class="nav-tabs">
+            <span class="nav-tab active" onclick="switchMode('practice', this)">编程练习</span>
+            <span class="nav-tab" onclick="switchMode('aigen', this)">AI 出题</span>
+            <span class="nav-tab nav-tab-upload" onclick="toggleUploadModal()">📄 上传题目</span>
+        </div>
+        <button class="header-settings-btn" onclick="toggleSettings()" title="设置">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+    </div>
+    <div class="app-body">
+        <!-- 左侧：题目 -->
+        <div class="panel-left" id="leftPanel">
+            <div class="problem-list">
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <button class="problem-search-btn" id="problemSearchBtn" onclick="openSearchModal()" title="搜索题目">🔍</button>
+                    <select id="problemSelector" onchange="loadQuestion(this.value)" style="flex:1;">
+                        <option value="">-- 选择题目 --</option>
+                    </select>
+                    <button class="btn-batch-del-circle" onclick="openBatchDelete()" title="批量删除题目">☐</button>
+                </div>
+            </div>
+            <div class="tab-bar">
+                <div class="tab active" onclick="switchTab('desc', this)">题目描述</div>
+                <div class="tab" onclick="switchTab('cases', this)">测试用例</div>
+            </div>
+            <div class="content" id="questionContent">
+                <div class="no-results">请从上方选择一道题目开始练习。</div>
+            </div>
+            <div class="nav-footer">
+                <button class="nav-btn" onclick="navigateQuestion(-1)" id="prevBtn">← 上一题</button>
+                <span class="nav-index" id="navIndex"></span>
+                <button class="nav-btn" onclick="navigateQuestion(1)" id="nextBtn">下一题 →</button>
+            </div>
+        </div>
+        <!-- 可拖拽分隔条 -->
+        <div class="divider" id="divider"></div>
+        <!-- 右侧：代码编辑器 -->
+        <div class="panel-right" id="rightPanel">
+            <!-- 编程练习模式 -->
+            <div class="practice-panel" id="practicePanel">
+                <div class="editor-toolbar">
+                    <span class="label">
+                        <span class="lang-switch">
+                            <span class="lang-opt" data-lang="python" onclick="switchLanguage('python')">Python</span>
+                            <span class="lang-opt active" data-lang="cpp" onclick="switchLanguage('cpp')">C++</span>
+                        </span>
+                        <span id="syntaxStatus" style="margin-left:10px;"></span>
+                    </span>
+                    <div class="actions">
+                        <button class="btn" id="bgToggleBtn" onclick="toggleEditorBg()" title="切换编辑器背景" style="background:#2a2a2a;color:#aaa;padding:6px 10px;font-size:14px;line-height:1;">☀️</button>
+                        <button class="btn btn-save" id="saveBtn" onclick="saveCode()" title="保存代码到本地">💾 保存</button>
+                        <button class="btn btn-clear" onclick="clearResults()">清空结果</button>
+                        <button class="btn btn-reset" onclick="resetCode()">重置代码</button>
+                        <button class="btn btn-run" id="runBtn" onclick="runCode(false)">▶ 运行测试</button>
+                        <button class="btn btn-submit" id="submitBtn" onclick="runCode(true)" disabled>📤 提交</button>
+                    </div>
+                </div>
+                <div class="editor-wrapper">
+                    <textarea id="codeEditor"></textarea>
+                </div>
+                <!-- 结果面板 -->
+                <div class="result-panel" id="resultPanel">
+                    <div class="result-header" onclick="toggleResults()">
+                        <span class="r-title" id="resultTitle">评测结果</span>
+                        <span class="r-status" id="resultStatus"></span>
+                        <span class="toggle-icon" id="toggleIcon" style="margin-left:auto;color:#888;font-size:14px;cursor:pointer;user-select:none;padding:0 4px;">▲</span>
+                    </div>
+                    <div class="summary-bar" id="summaryBar"></div>
+                    <div class="result-body" id="resultBody"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- AI 出题 — 全屏覆盖 -->
+    <div class="aigen-overlay" id="aigenOverlay">
+        <div class="aigen-main">
+            <div class="aigen-body">
+                <div class="aigen-body-inner" id="aigenBodyInner">
+                    <div class="aigen-greeting" style="margin-bottom:28px;">
+                        <h1 style="font-size:26px;font-weight:500;color:#1a1a1a;letter-spacing:-0.5px;">我有什么可以帮助你</h1>
+                    </div>
+                    <div class="aigen-prompt-wrap">
+                        <textarea class="aigen-prompt-area" id="aigenInput" placeholder=""
+                            oninput="autoResizeInput(this)"
+                            onkeydown="if(event.key==='Enter' && !event.shiftKey) { event.preventDefault(); generateQuestion(); }"></textarea>
+                    </div>
+                    <div class="aigen-prompt-footer">
+                        <button class="btn-gen" id="aigenBtn" onclick="generateQuestion()">发送</button>
+                    </div>
+                    <div class="aigen-status-line" id="aigenStatus"></div>
+                    <div class="aigen-error-box" id="aigenError"></div>
+                    <div class="aigen-card" id="aigenResult">
+                        <div class="aigen-card-head">
+                            <span class="title" id="aigenResultTitle"></span>
+                        </div>
+                        <div class="aigen-card-meta" id="aigenResultMeta"></div>
+                        <div class="aigen-card-body" id="aigenResultDetail"></div>
+                        <div class="aigen-card-actions">
+                            <button class="aigen-card-btn aigen-card-btn-primary" onclick="goToQuestion()">去练习这道题</button>
+                            <button class="aigen-card-btn aigen-card-btn-secondary" onclick="resetAIGen()">继续出题</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-api-overlay" id="aigenNoKeyOverlay" style="display:none;position:absolute;inset:0;border-radius:0;">
+                    <div class="icon">🔒</div>
+                    <div class="msg">未配置 API Key</div>
+                    <div class="sub">请先在设置中配置后再使用 AI 出题功能</div>
+                    <button class="btn-config" onclick="closeSettings();setTimeout(function(){document.getElementById('settingsOverlay').classList.add('open');document.getElementById('settingsApiKey').focus();},100)">去配置</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 上传题目弹窗 -->
+    <div class="upload-modal-overlay" id="uploadModal" onclick="if(event.target===this) closeUploadModal()">
+        <div class="upload-modal">
+            <div class="upload-modal-head">
+                <h2>📄 上传 Word 题目</h2>
+                <button class="upload-close-btn" onclick="closeUploadModal()">✕</button>
+            </div>
+            <div class="upload-modal-body">
+                <div class="upload-step">
+                    <div class="upload-step-num">1</div>
+                    <div class="upload-step-content">
+                        <div class="upload-step-title">下载模板</div>
+                        <div class="upload-step-desc">请先下载模板文件，按照模板中的格式填写题目信息。</div>
+                        <a href="/api/questions/download-template" class="upload-btn-template">📋 下载 Word 模板</a>
+                    </div>
+                </div>
+                <div class="upload-step">
+                    <div class="upload-step-num">2</div>
+                    <div class="upload-step-content">
+                        <div class="upload-step-title">上传填写好的文件</div>
+                        <div class="upload-step-desc">在模板中填写好题目后，将文件上传即可自动解析创建题目。</div>
+                        <div class="upload-file-area" id="uploadDropZone" onclick="document.getElementById('docxUploadInput').click()">
+                            <input type="file" id="docxUploadInput" accept=".docx" style="display:none" onchange="uploadQuestionDocx(this)" />
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0071e3" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <div class="upload-file-text">点击选择 .docx 文件</div>
+                            <div class="upload-file-hint">仅支持 Word 文档 (.docx)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置弹窗 — 侧边栏布局 -->
+    <div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this) closeSettings()">
+        <div class="settings-modal">
+            <div class="settings-modal-head">
+                <h2>设置</h2>
+                <button class="close-btn" onclick="closeSettings()">✕</button>
+            </div>
+            <div class="settings-modal-layout">
+                <div class="settings-sidebar">
+                    <div class="settings-sidebar-item active" data-pane="paneApi" onclick="switchSettingsPane('paneApi', this)">🔑 API Key</div>
+                    <div class="settings-sidebar-item" data-pane="paneEditor" onclick="switchSettingsPane('paneEditor', this)">✏️ 编辑器</div>
+                    <div class="settings-sidebar-item" data-pane="paneCompiler" onclick="switchSettingsPane('paneCompiler', this)">🔧 C++ 编译器</div>
+                </div>
+                <div class="settings-content">
+                    <div class="settings-pane active" id="paneApi">
+                        <div class="field">
+                            <label>DeepSeek API Key</label>
+                            <input type="password" id="settingsApiKey" placeholder="sk-..." />
+                            <div class="hint">用于 AI 出题功能。不会保存到服务器，仅保存在浏览器本地。DeepSeek key 以 sk- 开头。</div>
+                            <div style="display:flex;gap:8px;margin-top:8px;">
+                                <button class="btn-save" onclick="saveSettingsKey()">保存</button>
+                            </div>
+                            <div class="settings-status" id="settingsStatus"></div>
+                        </div>
+                    </div>
+                    <div class="settings-pane" id="paneEditor">
+                        <div class="field">
+                            <label>编辑器字体大小</label>
+                            <div style="display:flex;align-items:center;gap:12px;">
+                                <input type="range" id="settingsFontSize" min="10" max="24" step="1"
+                                    style="flex:1;accent-color:#0071e3;" oninput="previewFontSize(this.value)" />
+                                <span id="settingsFontSizeLabel" style="font-size:14px;font-weight:500;color:#1d1d1f;min-width:32px;text-align:center;">14</span>
+                            </div>
+                            <div class="hint">拖动滑块调整代码编辑器的字体大小。</div>
+                        </div>
+                        <button class="btn-save" onclick="saveSettingsKey()">保存</button>
+                        <div class="settings-status" id="settingsEditorStatus"></div>
+                    </div>
+                    <div class="settings-pane" id="paneCompiler">
+                        <div class="field">
+                            <label>C++ 编译器路径</label>
+                            <input type="text" id="settingsCompilerPath" placeholder="g++ 或 clang++" />
+                            <div class="hint">系统默认使用 g++，修改后保存即生效。</div>
+                            <div style="display:flex;gap:8px;margin-top:8px;">
+                                <button class="btn-save" onclick="saveCompilerPath()">保存</button>
+                            </div>
+                            <div class="settings-status" id="compilerSettingsStatus"></div>
+                        </div>
+                        <div class="field" style="margin-top:16px;">
+                            <label>编译器状态</label>
+                            <div id="compilerStatusDisplay" style="font-size:13px;color:#888;">正在检测...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 批量删除弹窗 -->
+    <div class="batch-del-overlay" id="batchDelModal" onclick="if(event.target===this) closeBatchDelete()">
+        <div class="batch-del-modal">
+            <div class="batch-del-head">
+                <h2>☐ 批量删除题目</h2>
+                <button class="batch-del-close" onclick="closeBatchDelete()">✕</button>
+            </div>
+            <div class="batch-del-body" id="batchDelBody">
+                <div class="batch-del-tip">选择要删除的题目，此操作无法撤销。</div>
+                <div id="batchDelList"></div>
+            </div>
+            <div class="batch-del-footer">
+                <span class="batch-del-count" id="batchDelCount">已选 0 道</span>
+                <div style="display:flex;gap:8px;">
+                    <button class="batch-del-cancel" onclick="closeBatchDelete()">取消</button>
+                    <button class="batch-del-confirm" id="batchDelConfirmBtn" onclick="confirmBatchDelete()">删除所选</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 搜索弹窗 -->
+    <div class="search-modal-overlay" id="searchModal" onclick="if(event.target===this) closeSearchModal()">
+        <div class="search-modal">
+            <div class="search-modal-head">
+                <input type="text" id="searchModalInput" class="search-modal-input" placeholder="搜索题目名称、分类..." autofocus oninput="doSearch(this.value)" />
+                <button class="search-modal-close" onclick="closeSearchModal()">✕</button>
+            </div>
+            <div class="search-modal-body" id="searchModalBody">
+                <div class="search-modal-hint">输入关键词搜索题目</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- AI 助手聊天 -->
+    <div class="ai-chat-fab" id="aiChatFab" title="AI 助手">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <div class="ai-chat-panel" id="aiChatPanel">
+        <div class="ai-chat-head">
+            <span class="ai-chat-head-label">Deepseek</span>
+            <button class="ai-chat-close" onclick="toggleAIChat()">✕</button>
+        </div>
+        <div class="ai-chat-divider"></div>
+        <div class="ai-chat-messages" id="aiChatMessages">
+            <div class="ai-chat-msg ai-chat-msg-bot">
+                <div class="ai-chat-msg-content">你好！我是 Deepseek，有什么可以帮助你？</div>
+            </div>
+        </div>
+        <div class="ai-chat-input-row">
+            <textarea class="ai-chat-input" id="aiChatInput" placeholder="输入问题..." rows="1" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px'" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIChatMessage()}"></textarea>
+            <button class="ai-chat-send" id="aiChatSendBtn" onclick="sendAIChatMessage()">发送</button>
+        </div>
+        <div class="ai-chat-resize-handle" id="aiChatResizeHandle">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="1.5"><path d="M1 9L9 1M1 6L6 1M4 9L9 4"/></svg>
+        </div>
+    </div>
+    <script src="/static/app.js"></script>
+
+
+    <!-- 烟花 canvas -->
+    <canvas id="fireworksCanvas"></canvas>
+    <!-- 奖励弹窗 -->
+    <div class="reward-popup" id="rewardPopup">
+        <span class="emoji">🎉</span>
+        <span class="text">恭喜你，答对啦！</span>
+        <span class="sub"></span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,2728 @@
+[
+  {
+    "id": 1,
+    "title": "快速排序",
+    "difficulty": "中等",
+    "category": "基础算法-排序",
+    "description": "给定 n 个整数，使用快速排序进行升序排序。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n第二行 n 个整数。",
+    "output_format": "输出排序后的数组。",
+    "sample_input": "5\n3 1 4 1 5",
+    "sample_output": "1 1 3 4 5",
+    "hint": "选第一个为 pivot，双指针相向扫描后交换，递归处理左右两部分。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    def qs(l, r):\n        if l >= r: return\n        p = a[l]; i, j = l, r\n        while i < j:\n            while i < j and a[j] >= p: j -= 1\n            while i < j and a[i] <= p: i += 1\n            if i < j: a[i], a[j] = a[j], a[i]\n        a[l], a[i] = a[i], a[l]\n        qs(l, i-1); qs(i+1, r)\n    qs(0, n-1)\n    print(\" \".join(map(str, a)))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n3 1 4 1 5\n",
+        "expected": "1 1 3 4 5"
+      },
+      {
+        "input": "1\n42\n",
+        "expected": "42"
+      },
+      {
+        "input": "3\n3 2 1\n",
+        "expected": "1 2 3"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\n// 快速排序辅助函数：对区间 [l, r] 进行排序\nvoid quick_sort(vector<int>& a, int l, int r) {\n    if (l >= r) return;                      // 递归终止条件\n    int p = a[l];                            // 基准值取第一个元素\n    int i = l, j = r;\n    while (i < j) {\n        // 从右向左找到第一个小于基准的元素\n        while (i < j && a[j] >= p) j--;\n        // 从左向右找到第一个大于基准的元素\n        while (i < j && a[i] <= p) i++;\n        if (i < j) swap(a[i], a[j]);        // 交换逆序对\n    }\n    // 将基准放到正确位置（此时 i == j）\n    swap(a[l], a[i]);\n    // 递归处理左右子区间\n    quick_sort(a, l, i - 1);\n    quick_sort(a, i + 1, r);\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int i = 0; i < n; i++) cin >> a[i];\n    quick_sort(a, 0, n - 1);                 // 对整个数组排序\n    for (int i = 0; i < n; i++) {\n        if (i > 0) cout << ' ';\n        cout << a[i];\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n3 2 4 1 7\n",
+        "expected": "2 3 4 1 7\n"
+      },
+      {
+        "input": "2\n3 2 4 1 5\n",
+        "expected": "2 3 4 1 5\n"
+      },
+      {
+        "input": "4\n3 1 4 1 6\n",
+        "expected": "1 1 3 4 6\n"
+      },
+      {
+        "input": "2\n3 1 4 1 4\n",
+        "expected": "1 3 4 1 4\n"
+      },
+      {
+        "input": "3\n3 1 6 1 7\n",
+        "expected": "1 3 6 1 7\n"
+      },
+      {
+        "input": "3\n2 1 3 1 5\n",
+        "expected": "1 2 3 1 5\n"
+      },
+      {
+        "input": "3\n3 3 2\n",
+        "expected": "2 3 3\n"
+      },
+      {
+        "input": "2\n2 2 1\n",
+        "expected": "2 2 1\n"
+      },
+      {
+        "input": "1\n3 2 1\n",
+        "expected": "3 2 1\n"
+      },
+      {
+        "input": "2\n3 2 2\n",
+        "expected": "2 3 2\n"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "数的范围",
+    "difficulty": "简单",
+    "category": "基础算法-二分",
+    "description": "给定升序数组和 q 个查询，每个查询求某值出现的起始和终止位置（下标从0），不存在输出 -1 -1。",
+    "input_format": "第一行 n q (1≤n,q≤10^5)。\n第二行 n 个升序整数。\n接下来 q 行每行一个整数 x。",
+    "output_format": "每行两个整数表示起始和终止位置，不存在输出 -1 -1。",
+    "sample_input": "6 3\n1 2 2 3 3 4\n2\n3\n5",
+    "sample_output": "1 2\n3 4\n-1 -1",
+    "hint": "二分查找左边界用 mid=(l+r)//2，右边界用 mid=(l+r+1)//2。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n, q = map(int, input().split())\n    a = list(map(int, input().split()))\n    for _ in range(q):\n        x = int(input())\n        l, r = 0, n-1\n        while l < r:\n            mid = (l+r)//2\n            if a[mid] >= x: r = mid\n            else: l = mid+1\n        if a[l] != x: print(-1, -1); continue\n        L = l\n        l, r = 0, n-1\n        while l < r:\n            mid = (l+r+1)//2\n            if a[mid] <= x: l = mid\n            else: r = mid-1\n        print(L, l)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3 1\n1 1 1\n1\n",
+        "expected": "0 2"
+      },
+      {
+        "input": "6 3\n1 2 2 3 3 4\n2\n3\n5\n",
+        "expected": "1 2\n3 4\n-1 -1"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(0);\n    int n, q;\n    cin >> n >> q;\n    vector<int> a(n);\n    // 读入升序数组\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    while (q--) {\n        int x;\n        cin >> x;\n        // 二分查找左边界\n        int l = 0, r = n - 1;\n        while (l < r) {\n            int mid = (l + r) / 2;\n            if (a[mid] >= x) r = mid;\n            else l = mid + 1;\n        }\n        // 若不存在，输出 -1 -1\n        if (a[l] != x) {\n            cout << \"-1 -1\\n\";\n            continue;\n        }\n        int L = l; // 记录左边界\n        // 二分查找右边界\n        l = 0, r = n - 1;\n        while (l < r) {\n            int mid = (l + r + 1) / 2;\n            if (a[mid] <= x) l = mid;\n            else r = mid - 1;\n        }\n        cout << L << \" \" << l << \"\\n\";\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "7 4\n1 2 2 3 3 7\n2\n3\n5\n",
+        "expected": "1 2\n3 4\n-1 -1\n"
+      },
+      {
+        "input": "3 3\n3 3 2 3 3 6\n2\n3\n6\n",
+        "expected": "-1 -1\n0 2\n-1 -1\n"
+      },
+      {
+        "input": "2 1\n1 2 2 2 4 4\n2\n3\n5\n",
+        "expected": "1 1\n"
+      },
+      {
+        "input": "2 3\n1 1 3 3 3 4\n2\n3\n3\n",
+        "expected": "-1 -1\n-1 -1\n-1 -1\n"
+      },
+      {
+        "input": "4 4\n1 1 4 4 3 4\n3\n3\n5\n",
+        "expected": "-1 -1\n-1 -1\n-1 -1\n"
+      },
+      {
+        "input": "8 6\n1 1 1 3 3 4\n1\n3\n5\n",
+        "expected": "0 2\n"
+      },
+      {
+        "input": "8 2\n1 1 1 2 3 4\n2\n3\n3\n",
+        "expected": "3 3\n"
+      },
+      {
+        "input": "4 4\n1 2 2 4 3 4\n2\n3\n5\n",
+        "expected": "1 2\n-1 -1\n-1 -1\n"
+      },
+      {
+        "input": "9 2\n1 4 1 2 3 4\n2\n3\n4\n",
+        "expected": "3 3\n"
+      },
+      {
+        "input": "5 4\n1 1 1 4 3 4\n2\n3\n5\n",
+        "expected": "-1 -1\n-1 -1\n-1 -1\n"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "高精度加法",
+    "difficulty": "简单",
+    "category": "基础算法-高精度",
+    "description": "计算两个大正整数之和（位数 ≤ 10^5）。",
+    "input_format": "两行，每行一个非负整数（可能有前导零但长度不超过 10^5）。",
+    "output_format": "输出它们的和。",
+    "sample_input": "999\n1",
+    "sample_output": "1000",
+    "hint": "从低位到高位逐位相加，进位处理。用 list 存大数逆序。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    a = list(map(int, input().strip()))[::-1]\n    b = list(map(int, input().strip()))[::-1]\n    carry = 0; res = []\n    for i in range(max(len(a), len(b))):\n        carry += (a[i] if i < len(a) else 0) + (b[i] if i < len(b) else 0)\n        res.append(carry % 10)\n        carry //= 10\n    if carry: res.append(carry)\n    print(\"\".join(map(str, res[::-1])))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "123456789\n987654321\n",
+        "expected": "1111111110"
+      },
+      {
+        "input": "999\n1\n",
+        "expected": "1000"
+      },
+      {
+        "input": "0\n0\n",
+        "expected": "0"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <string>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    // 读入两个大整数（字符串形式）\n    string s1, s2;\n    cin >> s1 >> s2;\n    \n    // 将字符串反转，并转换为数字数组（低位在前）\n    vector<int> a, b;\n    for (int i = s1.size() - 1; i >= 0; --i)\n        a.push_back(s1[i] - '0');\n    for (int i = s2.size() - 1; i >= 0; --i)\n        b.push_back(s2[i] - '0');\n    \n    // 逐位相加，处理进位\n    int carry = 0;\n    vector<int> res;\n    int len = max(a.size(), b.size());\n    for (int i = 0; i < len; ++i) {\n        int digit = carry;\n        if (i < a.size()) digit += a[i];\n        if (i < b.size()) digit += b[i];\n        res.push_back(digit % 10);\n        carry = digit / 10;\n    }\n    // 若最后有进位，添加到最高位\n    if (carry) res.push_back(carry);\n    \n    // 逆序输出结果（高位在前）\n    for (int i = res.size() - 1; i >= 0; --i)\n        cout << res[i];\n    cout << endl;\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "529\n2\n",
+        "expected": "531\n"
+      },
+      {
+        "input": "2479\n1\n",
+        "expected": "2480\n"
+      },
+      {
+        "input": "966\n1\n",
+        "expected": "967\n"
+      },
+      {
+        "input": "805\n1\n",
+        "expected": "806\n"
+      },
+      {
+        "input": "652\n1\n",
+        "expected": "653\n"
+      },
+      {
+        "input": "2451\n1\n",
+        "expected": "2452\n"
+      },
+      {
+        "input": "1186\n1\n",
+        "expected": "1187\n"
+      },
+      {
+        "input": "1488\n1\n",
+        "expected": "1489\n"
+      },
+      {
+        "input": "1184\n1\n",
+        "expected": "1185\n"
+      },
+      {
+        "input": "2038\n1\n",
+        "expected": "2039\n"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "title": "子矩阵的和",
+    "difficulty": "简单",
+    "category": "基础算法-前缀和与差分",
+    "description": "给定 n×m 矩阵，q 次询问子矩阵的和。",
+    "input_format": "第一行 n m q (1≤n,m≤1000, 1≤q≤10^5)。\n接下来 n 行每行 m 个整数。\n接下来 q 行每行四个整数 x1 y1 x2 y2（1-indexed）。",
+    "output_format": "每个询问输出其子矩阵的和。",
+    "sample_input": "3 4 3\n1 7 2 4\n3 6 2 8\n2 1 2 3\n1 1 2 2\n2 1 3 4\n1 3 3 4",
+    "sample_output": "17\n29\n21",
+    "hint": "二维前缀和：s[i][j]=s[i-1][j]+s[i][j-1]-s[i-1][j-1]+a[i][j]。子矩阵和=s[x2][y2]-s[x1-1][y2]-s[x2][y1-1]+s[x1-1][y1-1]。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n, m, q = map(int, input().split())\n    s = [[0]*(m+1) for _ in range(n+1)]\n    for i in range(1, n+1):\n        row = list(map(int, input().split()))\n        for j in range(1, m+1):\n            s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + row[j-1]\n    for _ in range(q):\n        x1,y1,x2,y2 = map(int, input().split())\n        print(s[x2][y2] - s[x1-1][y2] - s[x2][y1-1] + s[x1-1][y1-1])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3 4 3\n1 7 2 4\n3 6 2 8\n2 1 2 3\n1 1 2 2\n2 1 3 4\n1 3 3 4\n",
+        "expected": "17\n29\n21"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(nullptr);\n    \n    int n, m, q;\n    cin >> n >> m >> q;\n    \n    // 创建 (n+1) x (m+1) 的前缀和数组，初始为0\n    vector<vector<long long>> s(n + 1, vector<long long>(m + 1, 0));\n    \n    // 读入矩阵并计算前缀和\n    for (int i = 1; i <= n; ++i) {\n        for (int j = 1; j <= m; ++j) {\n            int x;\n            cin >> x;\n            // 二维前缀和公式：s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + a[i][j]\n            s[i][j] = s[i-1][j] + s[i][j-1] - s[i-1][j-1] + x;\n        }\n    }\n    \n    // 处理每个查询\n    while (q--) {\n        int x1, y1, x2, y2;\n        cin >> x1 >> y1 >> x2 >> y2;\n        // 子矩阵和公式：sum = s[x2][y2] - s[x1-1][y2] - s[x2][y1-1] + s[x1-1][y1-1]\n        long long ans = s[x2][y2] - s[x1-1][y2] - s[x2][y1-1] + s[x1-1][y1-1];\n        cout << ans << '\\n';\n    }\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2 3 3\n3 20 3 2\n3 6 2 12\n2 1 2 3\n1 1 2 2\n2 1 3 2\n1 3 3 6\n",
+        "expected": "11\n32\n"
+      },
+      {
+        "input": "2 3 2\n3 7 3 4\n3 3 2 21\n2 1 2 3\n1 1 2 2\n2 1 3 4\n1 3 3 4\n",
+        "expected": "8\n16\n"
+      },
+      {
+        "input": "2 3 3\n1 9 2 5\n2 4 2 9\n1 1 2 3\n3 0 2 2\n2 0 3 5\n2 2 3 4\n",
+        "expected": "20\n0\n"
+      },
+      {
+        "input": "0 7 8\n0 7 0 2\n7 2 3 65\n6 4 2 3\n1 1 2 2\n2 1 3 4\n1 3 3 4\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4 4 5\n5 9 2 4\n2 4 2 20\n2 4 2 4\n4 2 2 2\n2 2 3 4\n1 3 3 4\n",
+        "expected": "36\n34\n"
+      },
+      {
+        "input": "4 4 4\n4 42 4 5\n4 8 4 44\n2 2 2 3\n2 1 2 2\n2 1 3 2\n1 3 3 6\n",
+        "expected": "16\n"
+      },
+      {
+        "input": "4 4 4\n4 55 5 2\n4 4 2 22\n2 4 2 2\n4 2 2 2\n2 2 3 2\n1 3 3 7\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "2 4 4\n4 7 2 5\n2 3 2 6\n1 1 2 3\n3 2 2 2\n2 3 3 5\n2 2 3 4\n",
+        "expected": "20\n0\n"
+      },
+      {
+        "input": "5 4 5\n4 5 4 4\n4 3 4 8\n2 3 2 3\n4 3 2 2\n2 1 3 4\n1 3 3 4\n",
+        "expected": "25\n"
+      },
+      {
+        "input": "5 4 5\n3 33 3 4\n3 7 4 9\n3 4 2 3\n3 2 2 2\n2 3 3 2\n1 3 3 4\n",
+        "expected": "25\n"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "最长连续不重复子序列",
+    "difficulty": "中等",
+    "category": "基础算法-双指针算法",
+    "description": "给定长度为 n 的整数序列，找出最长的不包含重复数字的连续子序列长度。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n第二行 n 个整数。",
+    "output_format": "输出最长长度。",
+    "sample_input": "5\n1 2 2 3 5",
+    "sample_output": "3",
+    "hint": "j 指针随 i 右移，用哈希表维护窗口内元素出现次数。遇到重复时左指针 j 右移直到不重复。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    cnt = [0]*100001\n    res = j = 0\n    for i in range(n):\n        cnt[a[i]] += 1\n        while cnt[a[i]] > 1:\n            cnt[a[j]] -= 1; j += 1\n        res = max(res, i-j+1)\n    print(res)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n1 2 2 3 5\n",
+        "expected": "3"
+      },
+      {
+        "input": "6\n1 1 1 1 1 1\n",
+        "expected": "1"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <unordered_map>\n#include <algorithm>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(0);\n    \n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) cin >> a[i];\n    \n    // 哈希表记录每个数字当前窗口中出现的次数\n    unordered_map<int, int> cnt;\n    int res = 0;\n    int j = 0; // 滑动窗口左指针\n    \n    for (int i = 0; i < n; ++i) { // 右指针 i 遍历序列\n        cnt[a[i]]++; // 将当前数字加入窗口\n        // 如果当前数字出现次数大于1，则窗口内出现重复，需要移动左指针\n        while (cnt[a[i]] > 1) {\n            cnt[a[j]]--; // 左指针指向的数字移出窗口\n            j++;         // 左指针右移\n        }\n        // 更新最长不重复子序列的长度\n        res = max(res, i - j + 1);\n    }\n    \n    cout << res << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "5\n1 1 1 4 5\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "5\n1 1 3 3 5\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "2\n1 1 3 3 3\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "5\n1 1 2 3 5\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "6\n2 2 1 1 1 1\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "3\n2 1 1 1 1 1\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "5\n2 2 2 2 1 1\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "5\n2 2 2 1 1 1\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "5\n0 0 2 2 0 0\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "5\n5 -3 1 1 1 1\n",
+        "expected": "3\n"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "二进制中1的个数",
+    "difficulty": "简单",
+    "category": "基础算法-位运算",
+    "description": "给定 n 个整数，求每个整数的二进制表示中 1 的个数。",
+    "input_format": "第一行 n。\n第二行 n 个整数（范围在 int 内）。",
+    "output_format": "输出 n 个整数，表示每个数中 1 的个数。",
+    "sample_input": "5\n1 2 3 4 5",
+    "sample_output": "1 1 2 1 2",
+    "hint": "用 lowbit 操作 x&-x 每次去掉最后一个 1，统计次数。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    res = []\n    for x in a:\n        cnt = 0\n        while x:\n            x -= x & -x; cnt += 1\n        res.append(str(cnt))\n    print(\" \".join(res))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n1 2 3 4 5\n",
+        "expected": "1 1 2 1 2"
+      },
+      {
+        "input": "3\n0 7 15\n",
+        "expected": "0 3 4"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;          // 输入整数个数\n    for (int i = 0; i < n; i++) {\n        int x;\n        cin >> x;      // 输入每个整数\n        int cnt = 0;\n        while (x) {\n            x -= x & -x;   // 消除最低位的1（lowbit操作）\n            cnt++;         // 计数加1\n        }\n        cout << cnt;       // 输出1的个数\n        if (i != n - 1) cout << \" \";  // 数字之间加空格，末尾不输出空格\n    }\n    cout << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\n1 2 3 4 5\n",
+        "expected": "1 1 2 1 2\n"
+      },
+      {
+        "input": "2\n1 2 3 4 4\n",
+        "expected": "1 1 2 1 1\n"
+      },
+      {
+        "input": "6\n1 4 3 4 3\n",
+        "expected": "1 1 2 1 2\n"
+      },
+      {
+        "input": "3\n2 2 3 5 5\n",
+        "expected": "1 1 2 2 2\n"
+      },
+      {
+        "input": "6\n1 2 2 2 5\n",
+        "expected": "1 1 1 1 2\n"
+      },
+      {
+        "input": "6\n1 2 3 2 4\n",
+        "expected": "1 1 2 1 1\n"
+      },
+      {
+        "input": "6\n1 3 3 2 7\n",
+        "expected": "1 2 2 1 3\n"
+      },
+      {
+        "input": "7\n1 3 3 4 5\n",
+        "expected": "1 2 2 1 2\n"
+      },
+      {
+        "input": "6\n1 2 6 4 5\n",
+        "expected": "1 1 2 1 2\n"
+      },
+      {
+        "input": "5\n0 5 4 4 5\n",
+        "expected": "0 2 1 1 2\n"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "区间和",
+    "difficulty": "中等",
+    "category": "基础算法-离散化",
+    "description": "无限长数轴，初始全 0。n 次操作在 x 位置加 c，m 次询问区间 [l,r] 的和。坐标范围 -10^9~10^9。",
+    "input_format": "第一行 n m (1≤n,m≤10^5)。\n接下来 n 行 x c。\n接下来 m 行 l r。",
+    "output_format": "每个询问输出区间和。",
+    "sample_input": "3 3\n1 2\n3 6\n7 5\n1 3\n4 6\n7 7",
+    "sample_output": "8\n0\n5",
+    "hint": "将所有出现的下标排序去重（离散化），用二分查找映射后的下标，再用前缀和。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n, m = map(int, input().split())\n    add, query = [], []\n    idxs = set()\n    for _ in range(n):\n        x,c = map(int, input().split())\n        add.append((x,c)); idxs.add(x)\n    for _ in range(m):\n        l,r = map(int, input().split())\n        query.append((l,r)); idxs.add(l); idxs.add(r)\n    idxs = sorted(idxs)\n    def find(x):\n        l,r = 0,len(idxs)-1\n        while l<r:\n            mid=(l+r)//2\n            if idxs[mid]>=x: r=mid\n            else: l=mid+1\n        return l+1\n    s = [0]*(len(idxs)+2)\n    for x,c in add:\n        s[find(x)] += c\n    for i in range(1, len(s)):\n        s[i] += s[i-1]\n    for l,r in query:\n        print(s[find(r)] - s[find(l)-1])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3 3\n1 2\n3 6\n7 5\n1 3\n4 6\n7 7\n",
+        "expected": "8\n0\n5"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <set>\nusing namespace std;\n\ntypedef long long LL;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(NULL);\n\n    int n, m;\n    cin >> n >> m;\n\n    vector<pair<int, int>> add;          // 存储 n 次加法操作 (位置, 值)\n    vector<pair<int, int>> query;        // 存储 m 次询问 (左端点, 右端点)\n    set<int> idxs;                       // 用集合收集所有出现过的坐标，自动去重排序\n\n    // 读取 n 次加法\n    for (int i = 0; i < n; ++i) {\n        int x, c;\n        cin >> x >> c;\n        add.push_back({x, c});\n        idxs.insert(x);\n    }\n\n    // 读取 m 次询问\n    for (int i = 0; i < m; ++i) {\n        int l, r;\n        cin >> l >> r;\n        query.push_back({l, r});\n        idxs.insert(l);\n        idxs.insert(r);\n    }\n\n    // 将集合转为有序向量，便于二分查找\n    vector<int> idxsVec(idxs.begin(), idxs.end());\n\n    // 定义离散化查找函数：给定原始坐标，返回 1-based 索引\n    auto findIdx = [&](int x) -> int {\n        return lower_bound(idxsVec.begin(), idxsVec.end(), x) - idxsVec.begin() + 1;\n    };\n\n    // 初始化差分数组（大小比坐标数多 2 以确保安全）\n    vector<LL> diff(idxsVec.size() + 2, 0);\n\n    // 执行所有加法操作，将值加到对应离散化位置\n    for (auto &p : add) {\n        int pos = findIdx(p.first);\n        diff[pos] += p.second;\n    }\n\n    // 前缀和：将差分数组转换成前缀和数组\n    for (size_t i = 1; i < diff.size(); ++i) {\n        diff[i] += diff[i - 1];\n    }\n\n    // 处理每个询问，输出区间和\n    for (auto &q : query) {\n        int l = findIdx(q.first) - 1;   // 左端点前一个位置（注意减 1）\n        int r = findIdx(q.second);      // 右端点位置\n        cout << diff[r] - diff[l] << '\\n';\n    }\n\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2 3\n2 3\n3 9\n4 4\n1 3\n4 6\n7 7\n",
+        "expected": "0\n12\n0\n"
+      },
+      {
+        "input": "1 5\n2 2\n4 4\n5 4\n1 3\n4 6\n10 7\n",
+        "expected": "0\n0\n2\n0\n0\n"
+      },
+      {
+        "input": "4 2\n2 2\n3 8\n10 4\n1 3\n4 6\n7 7\n",
+        "expected": "0\n0\n"
+      },
+      {
+        "input": "2 4\n2 3\n3 6\n9 3\n1 3\n4 6\n4 6\n",
+        "expected": "0\n9\n0\n0\n"
+      },
+      {
+        "input": "2 2\n2 2\n3 3\n6 5\n1 3\n5 6\n5 7\n",
+        "expected": "0\n5\n"
+      },
+      {
+        "input": "2 4\n2 2\n2 9\n8 4\n1 3\n4 9\n7 7\n",
+        "expected": "0\n11\n0\n0\n"
+      },
+      {
+        "input": "2 4\n1 2\n4 9\n9 4\n1 3\n4 6\n7 7\n",
+        "expected": "0\n2\n9\n0\n"
+      },
+      {
+        "input": "2 2\n1 2\n2 4\n7 5\n1 5\n4 6\n7 7\n",
+        "expected": "0\n6\n"
+      },
+      {
+        "input": "-6 1\n1 3\n1 3\n8 6\n1 6\n4 6\n8 7\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "0 4\n5 2\n6 4\n6 5\n1 3\n4 6\n8 7\n",
+        "expected": "0\n0\n0\n0\n"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "合并区间",
+    "difficulty": "简单",
+    "category": "基础算法-区间合并",
+    "description": "给定 n 个区间 [l_i, r_i]，合并所有重叠区间输出合并后个数。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行每行 l_i r_i。",
+    "output_format": "输出合并后的区间个数。",
+    "sample_input": "5\n1 2\n2 4\n5 6\n7 8\n7 9",
+    "sample_output": "3",
+    "hint": "按左端点排序，遍历时维护当前合并区间的右端点。若新区间左>当前右则计数+1并开始新区间。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = [tuple(map(int, input().split())) for _ in range(n)]\n    a.sort(key=lambda x: x[0])\n    cnt = 1\n    cur_r = a[0][1]\n    for l,r in a[1:]:\n        if l <= cur_r:\n            cur_r = max(cur_r, r)\n        else:\n            cnt += 1; cur_r = r\n    print(cnt)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n1 2\n2 4\n5 6\n7 8\n7 9\n",
+        "expected": "3"
+      },
+      {
+        "input": "2\n1 3\n2 4\n",
+        "expected": "1"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<pair<int, int>> intervals(n);\n    // 读入所有区间\n    for (int i = 0; i < n; ++i) {\n        cin >> intervals[i].first >> intervals[i].second;\n    }\n    // 按左端点升序排序\n    sort(intervals.begin(), intervals.end());\n    // 初始化：第一个区间作为当前合并区间\n    int cnt = 1;                 // 合并后区间个数至少为1\n    int curR = intervals[0].second;  // 当前合并区间的右端点\n    // 从第二个区间开始遍历\n    for (int i = 1; i < n; ++i) {\n        int l = intervals[i].first;\n        int r = intervals[i].second;\n        if (l <= curR) {\n            // 有重叠：更新当前右端点为两者较大值\n            curR = max(curR, r);\n        } else {\n            // 无重叠：新区间开始，计数加一，重置右端点\n            ++cnt;\n            curR = r;\n        }\n    }\n    cout << cnt << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\n3 2\n2 7\n4 6\n7 12\n7 11\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "4\n1 3\n2 4\n5 6\n4 6\n8 11\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "4\n3 2\n2 3\n5 4\n11 8\n4 12\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "3\n1 1\n2 5\n6 6\n5 11\n7 9\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "3\n1 3\n2 12\n3 6\n5 4\n9 9\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "4\n1 1\n2 3\n5 6\n4 8\n5 7\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "5\n2 2\n2 6\n3 6\n7 8\n7 5\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "1\n1 3\n2 6\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "1\n1 1\n2 2\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "1\n1 5\n1 4\n",
+        "expected": "1\n"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "单链表操作",
+    "difficulty": "中等",
+    "category": "数据结构-链表",
+    "description": "实现单链表，支持：H x 在头节点后插入 x；D k 删除第 k 个插入节点后的节点（k=0 删除头节点）；I k x 在第 k 个插入节点后插入 x。初始 head=-1。",
+    "input_format": "第一行 m 个操作。\n每行一个操作，格式如上。",
+    "output_format": "最终从头输出链表所有值，空格分隔。",
+    "sample_input": "10\nH 9\nI 1 1\nD 1\nD 0\nH 6\nI 3 6\nI 4 5\nI 4 5\nI 3 4\nD 6",
+    "sample_output": "6 4 6 5",
+    "hint": "用数组模拟链表：e[ idx ] 存值，ne[ idx ] 存下一节点下标。head 指向头节点，idx 为当前已用节点数。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    m = int(input())\n    e, ne = [0]*100010, [0]*100010\n    head, idx = -1, 0\n    for _ in range(m):\n        cmd = input().split()\n        if cmd[0] == 'H':\n            x = int(cmd[1])\n            e[idx]=x; ne[idx]=head; head=idx; idx+=1\n        elif cmd[0] == 'D':\n            k = int(cmd[1])\n            if k==0: head = ne[head]\n            else: ne[k-1] = ne[ne[k-1]]\n        else:\n            k,x = int(cmd[1]), int(cmd[2])\n            e[idx]=x; ne[idx]=ne[k-1]; ne[k-1]=idx; idx+=1\n    res=[]; cur=head\n    while cur!=-1:\n        res.append(str(e[cur])); cur=ne[cur]\n    print(\" \".join(res))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "10\nH 9\nI 1 1\nD 1\nD 0\nH 6\nI 3 6\nI 4 5\nI 4 5\nI 3 4\nD 6\n",
+        "expected": "6 4 6 5"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nconst int N = 100010;\n\nint e[N];      // 存储节点值\nint ne[N];     // 存储下一节点指针（下标）\nint head = -1; // 头节点指针，初始为空\nint idx = 0;   // 当前可用节点下标\n\nint main() {\n    int m;\n    cin >> m;\n    \n    while (m--) {\n        char op;\n        cin >> op;\n        if (op == 'H') {          // 在头部插入 x\n            int x;\n            cin >> x;\n            e[idx] = x;\n            ne[idx] = head;\n            head = idx;\n            idx++;\n        } else if (op == 'D') {    // 删除第 k 个插入节点后的节点（k=0 删除头节点）\n            int k;\n            cin >> k;\n            if (k == 0) {\n                head = ne[head];   // 删除头节点\n            } else {\n                ne[k - 1] = ne[ne[k - 1]]; // 删除第 k 个节点后面的节点\n            }\n        } else if (op == 'I') {    // 在第 k 个插入节点后插入 x\n            int k, x;\n            cin >> k >> x;\n            e[idx] = x;\n            ne[idx] = ne[k - 1];   // 新节点指向原第 k 个节点的后继\n            ne[k - 1] = idx;       // 第 k 个节点指向新节点\n            idx++;\n        }\n    }\n    \n    // 遍历链表输出\n    vector<int> res;\n    for (int cur = head; cur != -1; cur = ne[cur]) {\n        res.push_back(e[cur]);\n    }\n    for (int i = 0; i < res.size(); i++) {\n        if (i > 0) cout << ' ';\n        cout << res[i];\n    }\n    cout << endl;\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "9\nH 20\nI 1 1\nD 1\nD 0\nH 5\nI 2 6\nI 2 5\nI 3 5\nI 3 4\nD 6\n",
+        "expected": "5 4 5\n"
+      },
+      {
+        "input": "8\nH 8\nI 0 2\nD 2\nD 1\nH 5\nI 3 8\nI 4 5\nI 4 6\nI 3 5\nD 7\n",
+        "expected": "5 8 6 5 8 2\n"
+      },
+      {
+        "input": "9\nH 9\nI 8 3\nD 3\nD -1\nH 6\nI 3 8\nI 3 6\nI 9 6\nI 3 5\nD 8\n",
+        "expected": "6 5 6 8 9\n"
+      },
+      {
+        "input": "9\nH 8\nI 9 7\nD 0\nD -1\nH 6\nI 5 9\nI 8 5\nI 6 6\nI 5 5\nD 7\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "9\nH -17\nI 1 1\nD 1\nD 8\nH 6\nI 2 6\nI 2 4\nI 2 4\nI 3 4\nD 6\n",
+        "expected": "6 4 -17\n"
+      },
+      {
+        "input": "9\nH 59\nI 7 6\nD 2\nD 0\nH 6\nI 2 6\nI 2 5\nI 6 5\nI 5 4\nD 6\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "9\nH 9\nI 5 5\nD 2\nD 0\nH 5\nI 8 8\nI 4 5\nI 4 6\nI 4 5\nD 7\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "6\nH 8\nI 9 7\nD 7\nD 5\nH 5\nI 6 8\nI 6 5\nI 4 6\nI 3 5\nD 7\n",
+        "expected": "5 8\n"
+      },
+      {
+        "input": "8\nH 78\nI 1 1\nD 1\nD 4\nH 4\nI 2 6\nI 2 6\nI 1 5\nI 8 4\nD 6\n",
+        "expected": "4 78 5\n"
+      },
+      {
+        "input": "8\nH 7\nI 2 4\nD 2\nD 2\nH 6\nI 2 8\nI 4 4\nI 4 6\nI 3 5\nD 7\n",
+        "expected": "6 7\n"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "单调栈",
+    "difficulty": "中等",
+    "category": "数据结构-栈与队列",
+    "description": "给定长度为 n 的序列，输出每个数左边第一个比它小的数，不存在输出 -1。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n第二行 n 个整数。",
+    "output_format": "输出 n 个整数。",
+    "sample_input": "5\n3 4 2 7 5",
+    "sample_output": "-1 3 -1 2 2",
+    "hint": "维护单调递增栈。遍历每个数，while 栈顶>=当前数则弹出，栈空则 -1 否则栈顶即为答案，再入栈。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    st, res = [], []\n    for x in a:\n        while st and st[-1] >= x: st.pop()\n        res.append(str(st[-1] if st else -1))\n        st.append(x)\n    print(\" \".join(res))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n3 4 2 7 5\n",
+        "expected": "-1 3 -1 2 2"
+      },
+      {
+        "input": "4\n1 2 3 4\n",
+        "expected": "-1 1 2 3"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <stack>\n#include <vector>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false); // 加速输入输出\n    cin.tie(0);\n\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) {\n        cin >> a[i];\n    }\n\n    stack<int> st;          // 单调递增栈，存储数值\n    vector<int> res;        // 存储结果\n\n    for (int x : a) {\n        // 弹出栈中所有 >= x 的元素（因为它们不可能成为后续元素的“左边第一个小值”)\n        while (!st.empty() && st.top() >= x) {\n            st.pop();\n        }\n        // 栈顶元素即为左边第一个比 x 小的数，若栈空则为 -1\n        res.push_back(st.empty() ? -1 : st.top());\n        st.push(x);          // 将 x 入栈\n    }\n\n    // 输出结果，用空格分隔\n    for (size_t i = 0; i < res.size(); ++i) {\n        if (i > 0) cout << ' ';\n        cout << res[i];\n    }\n    cout << endl;\n\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "4\n3 5 3 7 5\n",
+        "expected": "-1 3 -1 3 3\n"
+      },
+      {
+        "input": "7\n2 5 2 10 5\n",
+        "expected": "-1 2 -1 2 2\n"
+      },
+      {
+        "input": "6\n3 4 1 8 5\n",
+        "expected": "-1 3 -1 1 1\n"
+      },
+      {
+        "input": "6\n3 3 3 10 5\n",
+        "expected": "-1 -1 -1 3 3\n"
+      },
+      {
+        "input": "4\n3 4 2 3 5\n",
+        "expected": "-1 3 -1 2 3\n"
+      },
+      {
+        "input": "7\n3 5 1 7 5\n",
+        "expected": "-1 3 -1 1 1\n"
+      },
+      {
+        "input": "6\n1 2 2 4 7\n",
+        "expected": "-1 1 1 2 4\n"
+      },
+      {
+        "input": "8\n3 7 2 7 5\n",
+        "expected": "-1 3 -1 2 2\n"
+      },
+      {
+        "input": "6\n4 4 3 6 4\n",
+        "expected": "-1 -1 -1 3 3\n"
+      },
+      {
+        "input": "6\n6 4 3 9 5\n",
+        "expected": "-1 -1 -1 3 3\n"
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "KMP字符串匹配",
+    "difficulty": "中等",
+    "category": "数据结构-KMP",
+    "description": "求模式串在文本串中第一次出现的位置（下标从0开始），不存在输出 -1。",
+    "input_format": "第一行文本串 text (|text|≤10^6)。\n第二行模式串 pattern (|pattern|≤|text|)。",
+    "output_format": "输出第一次出现位置下标，-1 表示不存在。",
+    "sample_input": "ababababc\nababc",
+    "sample_output": "3",
+    "hint": "先求模式串的 next 数组（最长公共前后缀），再在匹配时利用 next 跳过已匹配部分。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    t = input().strip(); p = input().strip()\n    n, m = len(t), len(p)\n    if m == 0: print(0); return\n    nxt = [0]*m; j = 0\n    for i in range(1,m):\n        while j>0 and p[i]!=p[j]: j=nxt[j-1]\n        if p[i]==p[j]: j+=1; nxt[i]=j\n    j = 0\n    for i in range(n):\n        while j>0 and t[i]!=p[j]: j=nxt[j-1]\n        if t[i]==p[j]: j+=1\n        if j==m: print(i-m+1); return\n    print(-1)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "aaaaa\naab\n",
+        "expected": "-1"
+      },
+      {
+        "input": "ababababc\nababc\n",
+        "expected": "3"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <string>\n#include <vector>\nusing namespace std;\n\nint main() {\n    string t, p;\n    cin >> t >> p;\n    int n = t.size(), m = p.size();\n    // 模式串为空，返回0\n    if (m == 0) {\n        cout << 0 << endl;\n        return 0;\n    }\n    // 构建next数组（前缀函数）\n    vector<int> nxt(m, 0);\n    int j = 0;\n    for (int i = 1; i < m; ++i) {\n        // 当前字符不匹配，回退到上一个最长公共前后缀\n        while (j > 0 && p[i] != p[j])\n            j = nxt[j - 1];\n        // 匹配成功，前缀长度+1\n        if (p[i] == p[j])\n            ++j;\n        nxt[i] = j;\n    }\n    // 匹配过程\n    j = 0;\n    for (int i = 0; i < n; ++i) {\n        // 当前字符不匹配，回退\n        while (j > 0 && t[i] != p[j])\n            j = nxt[j - 1];\n        if (t[i] == p[j])\n            ++j;\n        // 完全匹配，输出起始位置\n        if (j == m) {\n            cout << i - m + 1 << endl;\n            return 0;\n        }\n    }\n    // 匹配失败\n    cout << -1 << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "aaaaa\naab\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "ababababc\nababc\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "aaaaa\naab\n\n",
+        "expected": "-1"
+      },
+      {
+        "input": "ababababc\nababc\n\n",
+        "expected": "3"
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Trie字符串统计",
+    "difficulty": "中等",
+    "category": "数据结构-Trie",
+    "description": "维护一个字符串集合，支持 I x 插入字符串，Q x 询问字符串出现次数。所有字符串只含小写字母。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行每行一个操作。",
+    "output_format": "每个 Q 操作输出一个整数表示出现次数。",
+    "sample_input": "5\nI abc\nI abc\nQ abc\nQ ab\nI abcd",
+    "sample_output": "2\n0",
+    "hint": "Trie 树：son[p][c] 存子节点下标，cnt[p] 存以 p 结尾的单词数。每个字符对应一个子节点。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    N = 100010\n    son = [[0]*26 for _ in range(N)]\n    cnt = [0]*N; idx = 0\n    for _ in range(n):\n        op,s = input().split()\n        if op == 'I':\n            p = 0\n            for ch in s:\n                c = ord(ch)-97\n                if not son[p][c]:\n                    idx+=1; son[p][c]=idx\n                p = son[p][c]\n            cnt[p] += 1\n        else:\n            p = 0\n            for ch in s:\n                c = ord(ch)-97\n                if not son[p][c]: break\n                p = son[p][c]\n            else:\n                print(cnt[p]); continue\n            print(0)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <string>\nusing namespace std;\n\nconst int N = 100010; // Trie树节点总数，根据题目数据范围设定\n\nint son[N][26];  // 存储每个节点的子节点索引（0表示不存在）\nint cnt[N];      // 存储以当前节点结尾的字符串出现次数\nint idx;         // 当前已分配的节点编号，根节点为0\n\nint main() {\n    int n;\n    cin >> n;\n    \n    string op, s;\n    while (n--) {\n        cin >> op >> s;\n        \n        if (op == \"I\") {\n            // 插入操作\n            int p = 0; // 从根节点开始\n            for (char ch : s) {\n                int c = ch - 'a'; // 将字符转换为0~25的索引\n                if (!son[p][c]) {\n                    // 如果当前节点的该子节点不存在，则创建新节点\n                    son[p][c] = ++idx;\n                }\n                p = son[p][c]; // 移动到子节点\n            }\n            cnt[p]++; // 在字符串末尾标记出现次数+1\n        } else {\n            // 查询操作\n            int p = 0;\n            bool found = true;\n            for (char ch : s) {\n                int c = ch - 'a';\n                if (!son[p][c]) {\n                    // 路径中断，说明字符串不存在\n                    found = false;\n                    break;\n                }\n                p = son[p][c];\n            }\n            if (found) {\n                cout << cnt[p] << endl; // 输出出现次数\n            } else {\n                cout << 0 << endl;\n            }\n        }\n    }\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "3\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "6\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "7\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "8\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "5\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "9\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "10\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "11\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      },
+      {
+        "input": "12\nI abc\nI abc\nQ abc\nQ ab\nI abcd\n",
+        "expected": "2\n0\n"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "合并集合",
+    "difficulty": "简单",
+    "category": "数据结构-并查集",
+    "description": "实现并查集，支持 M a b 合并 a 和 b 所在集合，Q a b 询问 a 和 b 是否在同一集合。",
+    "input_format": "第一行 n m (1≤n,m≤10^5)。\n接下来 m 行操作。",
+    "output_format": "每个 Q 操作输出 YES 或 NO。",
+    "sample_input": "4 5\nM 1 2\nM 3 4\nQ 1 2\nQ 1 3\nQ 3 4",
+    "sample_output": "YES\nNO\nYES",
+    "hint": "并查集：find(x) 路径压缩。合并时 p[find(a)]=find(b)。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n,m = map(int, input().split())\n    p = list(range(n+1))\n    def find(x):\n        while p[x]!=x:\n            p[x]=p[p[x]]; x=p[x]\n        return x\n    for _ in range(m):\n        op,a,b = input().split()\n        a,b = int(a), int(b)\n        if op == 'M':\n            p[find(a)] = find(b)\n        else:\n            print(\"YES\" if find(a)==find(b) else \"NO\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4 5\nM 1 2\nM 3 4\nQ 1 2\nQ 1 3\nQ 3 4\n",
+        "expected": "YES\nNO\nYES"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nconst int N = 100010; // 最大数据范围\nint p[N]; // 并查集父节点数组\n\n// 查找元素 x 的根节点（带路径压缩，迭代方式与 Python 一致）\nint find(int x) {\n    while (p[x] != x) {\n        p[x] = p[p[x]]; // 路径压缩：将当前节点指向祖父节点\n        x = p[x];       // 继续向上查找\n    }\n    return x;\n}\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    // 初始化：每个节点自成一个集合\n    for (int i = 1; i <= n; i++) p[i] = i;\n\n    while (m--) {\n        char op;\n        int a, b;\n        cin >> op >> a >> b; // 读入操作和两个整数\n        if (op == 'M') {\n            // 合并 a 和 b 所在的集合\n            p[find(a)] = find(b);\n        } else if (op == 'Q') {\n            // 询问是否在同一集合\n            if (find(a) == find(b))\n                cout << \"YES\" << endl;\n            else\n                cout << \"NO\" << endl;\n        }\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "6 5\nM 6 1\nM 3 4\nQ 1 2\nQ 1 3\nQ 3 4\n",
+        "expected": "NO\nNO\nYES\n"
+      },
+      {
+        "input": "6 5\nM 1 2\nM 2 6\nQ 1 2\nQ 1 3\nQ 3 5\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "6 7\nM 2 2\nM 2 6\nQ 2 2\nQ 2 4\nQ 3 4\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "6 5\nM 1 1\nM 2 4\nQ 1 2\nQ 1 4\nQ 3 4\n",
+        "expected": "NO\nNO\nNO\n"
+      },
+      {
+        "input": "6 5\nM 2 2\nM 3 4\nQ 1 2\nQ 1 3\nQ 3 4\n",
+        "expected": "NO\nNO\nYES\n"
+      },
+      {
+        "input": "5 5\nM 1 2\nM 3 3\nQ 0 1\nQ 1 2\nQ 3 5\n",
+        "expected": "NO\nYES\nNO\n"
+      },
+      {
+        "input": "7 6\nM 6 0\nM 6 6\nQ 6 6\nQ 1 7\nQ 3 5\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "7 7\nM 1 5\nM 0 6\nQ 7 2\nQ 2 3\nQ 3 7\n",
+        "expected": "NO\nNO\nNO\n"
+      },
+      {
+        "input": "7 7\nM 0 7\nM 5 4\nQ 4 7\nQ 1 3\nQ 3 4\n",
+        "expected": "NO\nNO\nNO\n"
+      },
+      {
+        "input": "7 6\nM -4 7\nM 6 6\nQ 1 2\nQ 1 2\nQ 3 4\n",
+        "expected": "NO\nNO\nNO\n"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "堆排序",
+    "difficulty": "中等",
+    "category": "数据结构-堆",
+    "description": "输入 n 个数和 k，输出前 k 小的数。用堆实现。",
+    "input_format": "第一行 n k (1≤k≤n≤10^5)。\n第二行 n 个整数。",
+    "output_format": "输出前 k 小的数，空格分隔。",
+    "sample_input": "5 3\n4 5 1 3 2",
+    "sample_output": "1 2 3",
+    "hint": "建小根堆，每次取出堆顶后 down 调整。Python 可用 heapq 实现。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import heapq\ndef main():\n    n,k = map(int, input().split())\n    a = list(map(int, input().split()))\n    heapq.heapify(a)\n    res = []\n    for _ in range(k):\n        res.append(str(heapq.heappop(a)))\n    print(\" \".join(res))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5 3\n4 5 1 3 2\n",
+        "expected": "1 2 3"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n, k;\n    cin >> n >> k;          // 输入 n 和 k\n    // 定义最小堆（优先队列，默认最大堆，使用 greater 变成最小堆）\n    priority_queue<int, vector<int>, greater<int>> pq;\n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        pq.push(x);         // 逐个插入到堆中，等效于建堆\n    }\n    vector<int> res;        // 存储前 k 小的数\n    for (int i = 0; i < k; ++i) {\n        res.push_back(pq.top());   // 获取当前最小值\n        pq.pop();                   // 弹出最小值\n    }\n    // 输出结果，空格分隔\n    for (int i = 0; i < k; ++i) {\n        if (i > 0) cout << \" \";\n        cout << res[i];\n    }\n    cout << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4 3\n4 7 1 3 1\n",
+        "expected": "1 1 3\n"
+      },
+      {
+        "input": "3 4\n4 5 1 3 2\n",
+        "expected": "1 2 3 4\n"
+      },
+      {
+        "input": "7 3\n2 5 2 3 2\n",
+        "expected": "2 2 2\n"
+      },
+      {
+        "input": "6 3\n6 3 1 3 3\n",
+        "expected": "1 3 3\n"
+      },
+      {
+        "input": "1 2\n4 3 1 3 2\n",
+        "expected": "1 2\n"
+      },
+      {
+        "input": "6 1\n3 7 2 3 2\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "6 4\n4 5 1 4 2\n",
+        "expected": "1 2 4 4\n"
+      },
+      {
+        "input": "7 2\n6 2 1 3 2\n",
+        "expected": "1 2\n"
+      },
+      {
+        "input": "6 1\n5 5 1 2 2\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "5 3\n4 6 1 2 2\n",
+        "expected": "1 2 2\n"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "模拟散列表",
+    "difficulty": "中等",
+    "category": "数据结构-Hash表",
+    "description": "维护集合，支持 I x 插入整数 x，Q x 询问 x 是否在集合中。x 范围 -10^9~10^9。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行操作。",
+    "output_format": "每个 Q 输出 YES 或 NO。",
+    "sample_input": "5\nI 1\nI 2\nQ 1\nQ 3\nI 3",
+    "sample_output": "YES\nNO",
+    "hint": "拉链法：开一个一维数组 h，每个槽挂一个链表。取模 N（质数）作为哈希值。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    N = 100003\n    h = [[] for _ in range(N)]\n    for _ in range(n):\n        op,s = input().split()\n        x = int(s)\n        k = x % N\n        if op == 'I':\n            h[k].append(x)\n        else:\n            print(\"YES\" if x in h[k] else \"NO\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\nI 1\nI 2\nQ 1\nQ 3\nI 3\n",
+        "expected": "YES\nNO"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <cstring>\nusing namespace std;\n\nconst int N = 100003; // 哈希表大小，取质数\nconst int M = 100010; // 操作总数\n\nint h[N];   // 哈希表头指针数组，初始化为-1表示空\nint e[M], ne[M], idx; // 邻接表：e存储值，ne存储下一个节点下标，idx当前可用节点\n\n// 插入操作\nvoid insert(int x) {\n    int k = (x % N + N) % N; // 计算哈希值，处理负数\n    e[idx] = x;          // 存储值\n    ne[idx] = h[k];      // 将新节点插入链表头部\n    h[k] = idx++;        // 更新头指针\n}\n\n// 查找操作\nbool find(int x) {\n    int k = (x % N + N) % N; // 计算哈希值\n    for (int i = h[k]; i != -1; i = ne[i]) { // 遍历链表\n        if (e[i] == x)\n            return true;\n    }\n    return false;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    \n    memset(h, -1, sizeof h); // 初始化头指针为-1\n    idx = 0;\n    \n    while (n--) {\n        char op;\n        int x;\n        cin >> op >> x;\n        if (op == 'I') {\n            insert(x);\n        } else { // op == 'Q'\n            if (find(x))\n                cout << \"YES\" << endl;\n            else\n                cout << \"NO\" << endl;\n        }\n    }\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "5\nI 2\nI 2\nQ 2\nQ 4\nI 4\n",
+        "expected": "YES\nNO\n"
+      },
+      {
+        "input": "7\nI 2\nI 2\nQ 1\nQ 4\nI 3\n",
+        "expected": "NO\nNO\n"
+      },
+      {
+        "input": "6\nI 1\nI 2\nQ 1\nQ 2\nI 2\n",
+        "expected": "YES\nYES\n"
+      },
+      {
+        "input": "4\nI 1\nI 1\nQ 1\nQ 3\nI 3\n",
+        "expected": "YES\nNO\n"
+      },
+      {
+        "input": "6\nI 1\nI 2\nQ 1\nQ 2\nI 3\n",
+        "expected": "YES\nYES\n"
+      },
+      {
+        "input": "7\nI 2\nI 1\nQ 1\nQ 2\nI 4\n",
+        "expected": "YES\nYES\n"
+      },
+      {
+        "input": "7\nI 2\nI 2\nQ 1\nQ 2\nI 3\n",
+        "expected": "NO\nYES\n"
+      },
+      {
+        "input": "6\nI 2\nI 2\nQ 2\nQ 2\nI 3\n",
+        "expected": "YES\nYES\n"
+      },
+      {
+        "input": "6\nI 1\nI 2\nQ 1\nQ 2\nI 4\n",
+        "expected": "YES\nYES\n"
+      },
+      {
+        "input": "7\nI 0\nI 0\nQ 0\nQ 8\nI 3\n",
+        "expected": "YES\nNO\n"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "走迷宫",
+    "difficulty": "中等",
+    "category": "搜索与图论-DFS与BFS",
+    "description": "n×m 网格 0 可走 1 障碍，从 (0,0) 到 (n-1,m-1) 最少步数，不可达输出 -1。",
+    "input_format": "第一行 n m (≤100)。\n接下来 n 行每行 m 个整数。",
+    "output_format": "输出最少步数或 -1。",
+    "sample_input": "5 5\n0 1 0 0 0\n0 1 0 1 0\n0 0 0 1 0\n0 1 1 1 0\n0 0 0 0 0",
+    "sample_output": "12",
+    "hint": "BFS 逐层扩展，队列存 (x,y,step)，首次到达终点即为最短距离。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "from collections import deque\ndef main():\n    n,m = map(int, input().split())\n    g = [list(map(int, input().split())) for _ in range(n)]\n    if g[0][0]==1 or g[n-1][m-1]==1: print(-1); return\n    q = deque([(0,0,0)]); g[0][0]=1\n    dirs = [(1,0),(-1,0),(0,1),(0,-1)]\n    while q:\n        x,y,d = q.popleft()\n        if x==n-1 and y==m-1: print(d); return\n        for dx,dy in dirs:\n            nx,ny = x+dx, y+dy\n            if 0<=nx<n and 0<=ny<m and g[nx][ny]==0:\n                g[nx][ny]=1; q.append((nx,ny,d+1))\n    print(-1)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5 5\n0 1 0 0 0\n0 1 0 1 0\n0 0 0 1 0\n0 1 1 1 0\n0 0 0 0 0\n",
+        "expected": "12"
+      },
+      {
+        "input": "2 2\n0 0\n0 0\n",
+        "expected": "2"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <queue>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    // 读入网格，0 可走，1 障碍\n    vector<vector<int>> grid(n, vector<int>(m));\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < m; j++) {\n            cin >> grid[i][j];\n        }\n    }\n\n    // 起点或终点本身就是障碍，直接输出 -1\n    if (grid[0][0] == 1 || grid[n-1][m-1] == 1) {\n        cout << -1 << endl;\n        return 0;\n    }\n\n    // BFS 队列，存储坐标\n    queue<pair<int, int>> q;\n    q.push({0, 0});\n    grid[0][0] = 1;   // 标记已经访问（变成障碍，避免重复入队）\n\n    // 四个方向：下、上、右、左\n    int dirs[4][2] = {{1,0}, {-1,0}, {0,1}, {0,-1}};\n    int steps = 0;    // 当前已走的步数\n\n    while (!q.empty()) {\n        int sz = q.size();   // 当前层的格子数量\n        for (int i = 0; i < sz; i++) {\n            int x = q.front().first;\n            int y = q.front().second;\n            q.pop();\n\n            // 到达终点，输出步数\n            if (x == n-1 && y == m-1) {\n                cout << steps << endl;\n                return 0;\n            }\n\n            // 尝试四个方向\n            for (auto& d : dirs) {\n                int nx = x + d[0];\n                int ny = y + d[1];\n                if (nx >= 0 && nx < n && ny >= 0 && ny < m && grid[nx][ny] == 0) {\n                    grid[nx][ny] = 1;   // 标记已访问\n                    q.push({nx, ny});\n                }\n            }\n        }\n        steps++;   // 每处理完一层步数加 1\n    }\n\n    // 队列为空仍未到达终点，输出 -1\n    cout << -1 << endl;\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "4 3\n-2 2 1 -1 1\n1 1 1 1 1\n1 1 1 1 1\n0 1 1 1 0\n0 0 0 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "5 5\n2 2 2 1 1\n1 1 -1 1 -1\n-1 -1 -1 1 0\n0 1 1 1 0\n0 0 0 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "4 5\n2 2 -2 2 -1\n-1 1 -1 1 -1\n-1 1 0 1 0\n0 1 1 1 0\n0 0 0 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "3 5\n-2 2 -2 1 1\n1 1 -1 1 1\n1 1 1 1 1\n1 1 1 1 1\n1 1 -1 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "4 5\n2 2 -2 2 -1\n1 1 -1 1 -1\n-1 -1 -1 1 1\n1 1 1 1 -1\n1 0 0 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "3 5\n2 1 1 1 -1\n-1 1 1 1 -1\n-1 1 -1 1 1\n1 1 1 1 1\n0 0 0 0 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "2 2\n-1 1\n-1 0\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "1 1\n-1 1\n-1 0\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "2 2\n-1 -1\n0 0\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "2 2\n1 1\n1 -1\n",
+        "expected": "-1\n"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "有向图的拓扑序列",
+    "difficulty": "中等",
+    "category": "搜索与图论-拓扑排序",
+    "description": "给定 n 点 m 边的有向图，输出任意一个拓扑序列。不存在（有环）输出 -1。",
+    "input_format": "第一行 n m (1≤n,m≤10^5)。\n接下来 m 行 u v 表示 u→v。",
+    "output_format": "一行 n 个整数表示拓扑序，不存在输出 -1。",
+    "sample_input": "4 3\n1 2\n2 3\n3 4",
+    "sample_output": "1 2 3 4",
+    "hint": "队列维护入度为 0 的节点，依次取出并减少相邻节点入度，入度为 0 则入队。最终不足 n 个则存在环。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "from collections import deque\ndef main():\n    n,m = map(int, input().split())\n    adj = [[] for _ in range(n)]\n    indeg = [0]*n\n    for _ in range(m):\n        u,v = map(int, input().split())\n        adj[u-1].append(v-1); indeg[v-1] += 1\n    q = deque([i for i in range(n) if indeg[i]==0])\n    res = []\n    while q:\n        u = q.popleft(); res.append(str(u+1))\n        for v in adj[u]:\n            indeg[v]-=1\n            if indeg[v]==0: q.append(v)\n    if len(res)!=n: print(-1)\n    else: print(\" \".join(res))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4 3\n1 2\n2 3\n3 4\n",
+        "expected": "1 2 3 4"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <queue>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n\n    int n, m;\n    cin >> n >> m;\n\n    // 邻接表存储图，节点编号从0到n-1\n    vector<vector<int>> adj(n);\n    vector<int> indeg(n, 0);\n\n    for (int i = 0; i < m; i++) {\n        int u, v;\n        cin >> u >> v;\n        // 转换为0-index\n        u--; v--;\n        adj[u].push_back(v);\n        indeg[v]++;\n    }\n\n    // 初始化队列，将所有入度为0的节点加入\n    queue<int> q;\n    for (int i = 0; i < n; i++) {\n        if (indeg[i] == 0) q.push(i);\n    }\n\n    vector<int> topo;  // 存储拓扑序列（原始编号+1）\n    while (!q.empty()) {\n        int u = q.front(); q.pop();\n        topo.push_back(u + 1);  // 输出时恢复为1-index\n        for (int v : adj[u]) {\n            indeg[v]--;\n            if (indeg[v] == 0) q.push(v);\n        }\n    }\n\n    // 如果拓扑序列长度不等于节点总数，说明有环\n    if ((int)topo.size() != n) {\n        cout << -1 << endl;\n    } else {\n        for (int i = 0; i < n; i++) {\n            cout << topo[i] << (i == n - 1 ? '\\n' : ' ');\n        }\n    }\n\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "5 3\n1 1\n2 4\n2 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "6 2\n1 1\n2 3\n3 6\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "5 3\n3 2\n4 3\n3 3\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "6 2\n6 2\n4 6\n8 3\n",
+        "expected": "1 3 4 5 6 2\n"
+      },
+      {
+        "input": "6 1\n5 2\n2 7\n8 6\n",
+        "expected": "1 3 4 5 6 2\n"
+      },
+      {
+        "input": "6 0\n1 1\n2 4\n3 6\n",
+        "expected": "1 2 3 4 5 6\n"
+      },
+      {
+        "input": "7 0\n5 4\n0 5\n3 6\n",
+        "expected": "1 2 3 4 5 6 7\n"
+      },
+      {
+        "input": "7 2\n2 2\n2 7\n3 5\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "5 0\n5 5\n2 4\n3 6\n",
+        "expected": "1 2 3 4 5\n"
+      },
+      {
+        "input": "8 3\n7 1\n5 4\n1 4\n",
+        "expected": "2 3 5 6 7 8 1 4\n"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Dijkstra求最短路",
+    "difficulty": "中等",
+    "category": "搜索与图论-最短路",
+    "description": "有向图（非负权），求 1→n 的最短距离。不可达输出 -1。",
+    "input_format": "第一行 n m (1≤n≤10^5, 1≤m≤2×10^5)。\n接下来 m 行 u v w。",
+    "output_format": "输出最短距离或 -1。",
+    "sample_input": "3 3\n1 2 2\n2 3 1\n1 3 4",
+    "sample_output": "3",
+    "hint": "堆优化 Dijkstra。dist 初始 INF，起点的 dist=0。每次取距离最小节点松弛。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import heapq\ndef main():\n    n,m = map(int, input().split())\n    adj = [[] for _ in range(n)]\n    for _ in range(m):\n        u,v,w = map(int, input().split())\n        adj[u-1].append((v-1,w))\n    INF=10**18; dist=[INF]*n; dist[0]=0\n    pq=[(0,0)]\n    while pq:\n        d,u = heapq.heappop(pq)\n        if d>dist[u]: continue\n        for v,w in adj[u]:\n            nd = d+w\n            if nd<dist[v]:\n                dist[v]=nd; heapq.heappush(pq,(nd,v))\n    print(-1 if dist[n-1]==INF else dist[n-1])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3 3\n1 2 2\n2 3 1\n1 3 4\n",
+        "expected": "3"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <queue>\n#include <climits>\nusing namespace std;\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    \n    int n, m;\n    cin >> n >> m;\n    \n    // 邻接表，存储 (目标节点, 边权)\n    vector<vector<pair<int, long long>>> adj(n);\n    for (int i = 0; i < m; i++) {\n        int u, v;\n        long long w;\n        cin >> u >> v >> w;\n        u--; v--;  // 转换为 0 索引\n        adj[u].push_back({v, w});\n    }\n    \n    const long long INF = 1e18;\n    vector<long long> dist(n, INF);\n    dist[0] = 0;\n    \n    // 小根堆，存储 (当前距离, 节点编号)\n    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;\n    pq.push({0, 0});\n    \n    while (!pq.empty()) {\n        auto [d, u] = pq.top();\n        pq.pop();\n        // 如果当前距离大于已知最短距离，跳过\n        if (d > dist[u]) continue;\n        \n        for (auto [v, w] : adj[u]) {\n            long long nd = d + w;\n            if (nd < dist[v]) {\n                dist[v] = nd;\n                pq.push({nd, v});\n            }\n        }\n    }\n    \n    // 输出结果\n    if (dist[n-1] == INF) {\n        cout << -1;\n    } else {\n        cout << dist[n-1];\n    }\n    cout << \"\\n\";\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "3 3\n2 3 2\n2 3 2\n1 3 4\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "4 2\n2 2 2\n2 3 1\n1 3 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "4 3\n3 1 2\n4 3 0\n0 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "6 0\n0 7 6\n7 1 3\n1 3 9\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 3\n7 5 4\n2 5 0\n-1 1 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "5 2\n2 9 2\n3 3 6\n4 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "6 2\n5 6 6\n5 3 3\n5 3 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 0\n5 6 7\n2 4 2\n1 3 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 0\n0 7 1\n1 2 7\n1 3 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "9 0\n0 7 6\n2 2 2\n1 3 4\n",
+        "expected": "-1\n"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Kruskal求最小生成树",
+    "difficulty": "中等",
+    "category": "搜索与图论-最小生成树",
+    "description": "无向带权图，求 MST 边权和。不连通输出 -1。",
+    "input_format": "第一行 n m (1≤n≤10^5, 1≤m≤2×10^5)。\n接下来 m 行 u v w。",
+    "output_format": "输出 MST 边权和或 -1。",
+    "sample_input": "4 5\n1 2 1\n1 3 2\n1 4 3\n2 3 2\n3 4 4",
+    "sample_output": "6",
+    "hint": "Kruskal：边按权排序，并查集维护连通性，选取 n-1 条边即得 MST。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n,m = map(int, input().split())\n    edges = []\n    for _ in range(m):\n        u,v,w = map(int, input().split())\n        edges.append((w,u-1,v-1))\n    edges.sort()\n    p = list(range(n))\n    def find(x):\n        while p[x]!=x: p[x]=p[p[x]]; x=p[x]\n        return x\n    total = cnt = 0\n    for w,u,v in edges:\n        ru,rv = find(u),find(v)\n        if ru!=rv:\n            p[ru]=rv; total+=w; cnt+=1\n            if cnt==n-1: print(total); return\n    print(-1)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4 5\n1 2 1\n1 3 2\n1 4 3\n2 3 2\n3 4 4\n",
+        "expected": "6"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\ntypedef long long LL;\n\n// 并查集类\nstruct DSU {\n    vector<int> parent;\n    DSU(int n) {\n        parent.resize(n);\n        for (int i = 0; i < n; i++) parent[i] = i;\n    }\n    // 查找根节点（带路径压缩）\n    int find(int x) {\n        while (parent[x] != x) {\n            parent[x] = parent[parent[x]];\n            x = parent[x];\n        }\n        return x;\n    }\n    // 合并两个集合\n    void unite(int a, int b) {\n        int ra = find(a);\n        int rb = find(b);\n        if (ra != rb) parent[ra] = rb;\n    }\n    // 判断是否连通\n    bool same(int a, int b) {\n        return find(a) == find(b);\n    }\n};\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    \n    int n, m;\n    cin >> n >> m;\n    \n    // 存储边 (权重, u, v)\n    vector<pair<int, pair<int, int>>> edges;\n    for (int i = 0; i < m; i++) {\n        int u, v, w;\n        cin >> u >> v >> w;\n        // 转为0-index\n        u--; v--;\n        edges.push_back({w, {u, v}});\n    }\n    // 按照权重从小到大排序\n    sort(edges.begin(), edges.end());\n    \n    DSU dsu(n);\n    LL total = 0;          // 最小生成树总权值\n    int cnt = 0;            // 已经加入的边数\n    \n    for (auto& e : edges) {\n        int w = e.first;\n        int u = e.second.first;\n        int v = e.second.second;\n        if (!dsu.same(u, v)) {\n            dsu.unite(u, v);\n            total += w;\n            cnt++;\n            if (cnt == n - 1) {\n                cout << total << '\\n';\n                return 0;\n            }\n        }\n    }\n    // 如果循环结束还没连通，则输出-1\n    cout << -1 << '\\n';\n    \n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2 2\n1 2 1\n1 2 2\n1 5 3\n2 3 2\n3 6 4\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "6 5\n1 1 2\n1 2 2\n1 5 4\n2 4 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n1 6 1\n1 2 2\n1 6 3\n2 3 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "6 5\n1 2 1\n1 6 2\n1 3 3\n2 3 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n5 6 0\n0 7 4\n4 6 7\n2 3 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n0 5 3\n0 6 5\n6 4 4\n5 3 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n2 0 0\n6 6 6\n5 7 1\n6 7 1\n1 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n5 6 -0\n1 5 7\n1 3 6\n2 3 2\n3 4 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n4 5 4\n1 7 4\n1 5 1\n2 3 2\n3 6 4\n",
+        "expected": "-1\n"
+      },
+      {
+        "input": "7 5\n0 0 0\n5 6 5\n1 6 5\n6 1 2\n3 5 7\n",
+        "expected": "-1\n"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "title": "染色法判定二分图",
+    "difficulty": "中等",
+    "category": "搜索与图论-二分图",
+    "description": "给定无向图，判断是否为二分图（可用两种颜色染色且相邻点不同色）。",
+    "input_format": "第一行 n m (1≤n,m≤10^5)。\n接下来 m 行 u v。",
+    "output_format": "是二分图输出 YES，否则 NO。",
+    "sample_input": "4 4\n1 2\n1 3\n2 4\n3 4",
+    "sample_output": "YES",
+    "hint": "DFS 染色法：每个点染 0/1，相邻点染相反色。出现矛盾则不是二分图。图可能不连通。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import sys\nsys.setrecursionlimit(10**6)\ndef main():\n    n,m = map(int, input().split())\n    adj = [[] for _ in range(n)]\n    for _ in range(m):\n        u,v = map(int, input().split())\n        adj[u-1].append(v-1); adj[v-1].append(u-1)\n    color = [-1]*n\n    def dfs(u,c):\n        color[u]=c\n        for v in adj[u]:\n            if color[v]==-1:\n                if not dfs(v,1-c): return False\n            elif color[v]==c: return False\n        return True\n    for i in range(n):\n        if color[i]==-1 and not dfs(i,0):\n            print(\"NO\"); return\n    print(\"YES\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4 4\n1 2\n1 3\n2 4\n3 4\n",
+        "expected": "YES"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <stack>\nusing namespace std;\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<vector<int>> adj(n);\n    for (int i = 0; i < m; ++i) {\n        int u, v;\n        cin >> u >> v;\n        --u; --v;\n        adj[u].push_back(v);\n        adj[v].push_back(u);\n    }\n\n    // 颜色数组，-1表示未染色，0和1表示两种颜色\n    vector<int> color(n, -1);\n    bool isBipartite = true;\n\n    // 遍历每个连通分量\n    for (int i = 0; i < n && isBipartite; ++i) {\n        if (color[i] != -1) continue;\n        // 使用栈模拟DFS递归，栈内存储 (节点, 该节点应染的颜色)\n        stack<pair<int, int>> stk;\n        stk.push({i, 0});\n        while (!stk.empty() && isBipartite) {\n            auto p = stk.top(); stk.pop();\n            int u = p.first;\n            int c = p.second;\n            // 如果当前节点已经染色，检查颜色是否与预期一致\n            if (color[u] != -1) {\n                if (color[u] != c) {\n                    isBipartite = false;\n                    break;\n                }\n                continue;\n            }\n            // 染色当前节点\n            color[u] = c;\n            // 遍历所有邻居\n            for (int v : adj[u]) {\n                if (color[v] == -1) {\n                    // 未染色则入栈，颜色取反\n                    stk.push({v, 1 - c});\n                } else if (color[v] == c) {\n                    // 相邻节点颜色相同，不是二分图\n                    isBipartite = false;\n                    break;\n                }\n            }\n        }\n    }\n\n    if (isBipartite)\n        cout << \"YES\" << endl;\n    else\n        cout << \"NO\" << endl;\n\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "5 2\n1 1\n1 3\n2 4\n3 4\n",
+        "expected": "NO\n"
+      },
+      {
+        "input": "6 4\n2 4\n1 3\n2 4\n3 4\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "3 2\n1 2\n1 3\n2 2\n3 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "4 4\n1 3\n0 2\n3 3\n4 4\n",
+        "expected": "NO\n"
+      },
+      {
+        "input": "5 0\n1 8\n2 5\n2 9\n3 7\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "7 3\n7 2\n0 4\n1 3\n4 4\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "6 0\n5 2\n1 2\n2 9\n4 4\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "7 1\n1 6\n1 7\n7 2\n8 6\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "5 2\n5 5\n2 3\n6 9\n3 4\n",
+        "expected": "NO\n"
+      },
+      {
+        "input": "5 -6\n5 1\n1 5\n5 6\n3 4\n",
+        "expected": "YES\n"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "title": "判定质数",
+    "difficulty": "简单",
+    "category": "数学知识-质数",
+    "description": "给定 n 个整数，判断每个是否是质数。",
+    "input_format": "第一行 n (1≤n≤100)。\n第二行 n 个整数 a_i (2≤a_i≤2^31-1)。",
+    "output_format": "每行输出 YES 或 NO。",
+    "sample_input": "3\n2 4 17",
+    "sample_output": "YES\nNO\nYES",
+    "hint": "试除法：枚举 i 从 2 到 sqrt(x)，若 x%i==0 则非质数。注意用 i*i≤x 避免开方。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    import sys; input=sys.stdin.readline\n    n = int(input())\n    a = list(map(int, input().split()))\n    for x in a:\n        if x < 2: print(\"NO\"); continue\n        i = 2; ok = True\n        while i*i <= x:\n            if x%i==0: ok=False; break\n            i+=1\n        print(\"YES\" if ok else \"NO\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n2 4 17\n",
+        "expected": "YES\nNO\nYES"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\n// 判断一个数是否为质数\nbool isPrime(int x) {\n    if (x < 2) return false;           // 小于2不是质数\n    for (int i = 2; i <= x / i; i++) { // i <= sqrt(x)，防止溢出\n        if (x % i == 0) return false;  // 找到因数则不是质数\n    }\n    return true;\n}\n\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        int x;\n        cin >> x;\n        if (isPrime(x)) {\n            cout << \"YES\" << endl;\n        } else {\n            cout << \"NO\" << endl;\n        }\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n2 3 15\n",
+        "expected": "YES\nYES\nNO\n"
+      },
+      {
+        "input": "3\n2 4 22\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "5\n3 4 18\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "3\n2 4 20\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "3\n2 6 24\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "3\n2 5 14\n",
+        "expected": "YES\nYES\nNO\n"
+      },
+      {
+        "input": "3\n1 3 12\n",
+        "expected": "NO\nYES\nNO\n"
+      },
+      {
+        "input": "5\n3 4 17\n",
+        "expected": "YES\nNO\nYES\n"
+      },
+      {
+        "input": "2\n2 4 15\n",
+        "expected": "YES\nNO\nNO\n"
+      },
+      {
+        "input": "2\n3 4 16\n",
+        "expected": "YES\nNO\nNO\n"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "title": "试除法求约数",
+    "difficulty": "简单",
+    "category": "数学知识-约数",
+    "description": "给定 n 个整数，求每个数的所有约数，按升序输出。",
+    "input_format": "第一行 n (1≤n≤100)。\n第二行 n 个整数 (1≤a_i≤2×10^9)。",
+    "output_format": "每组约数升序输出，每组一行。",
+    "sample_input": "3\n6 8 12",
+    "sample_output": "1 2 3 6\n1 2 4 8\n1 2 3 4 6 12",
+    "hint": "枚举 i 从 1 到 sqrt(x)，若 i 是约数则将 i 和 x//i 都加入集合，最后排序。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    import sys; input=sys.stdin.readline\n    n = int(input())\n    a = list(map(int, input().split()))\n    for x in a:\n        res = set()\n        i = 1\n        while i*i <= x:\n            if x%i==0:\n                res.add(i); res.add(x//i)\n            i+=1\n        print(\" \".join(map(str, sorted(res))))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n6 8 12\n",
+        "expected": "1 2 3 6\n1 2 4 8\n1 2 3 4 6 12"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\n#include <cmath>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n);\n    for (int i = 0; i < n; ++i) {\n        cin >> a[i];\n    }\n    \n    for (int x : a) {\n        vector<int> divisors;\n        // 试除法求所有约数\n        int i = 1;\n        while (i * i <= x) {\n            if (x % i == 0) {\n                divisors.push_back(i);\n                if (i != x / i) {  // 避免重复添加平方根\n                    divisors.push_back(x / i);\n                }\n            }\n            ++i;\n        }\n        // 升序排序\n        sort(divisors.begin(), divisors.end());\n        // 输出当前数的所有约数\n        for (size_t j = 0; j < divisors.size(); ++j) {\n            if (j > 0) cout << ' ';\n            cout << divisors[j];\n        }\n        cout << endl;\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\n9 9 12\n",
+        "expected": "1 3 9\n1 3 9\n1 2 3 4 6 12\n"
+      },
+      {
+        "input": "4\n3 8 16\n",
+        "expected": "1 3\n1 2 4 8\n1 2 4 8 16\n"
+      },
+      {
+        "input": "3\n6 9 13\n",
+        "expected": "1 2 3 6\n1 3 9\n1 13\n"
+      },
+      {
+        "input": "4\n8 8 16\n",
+        "expected": "1 2 4 8\n1 2 4 8\n1 2 4 8 16\n"
+      },
+      {
+        "input": "2\n6 10 12\n",
+        "expected": "1 2 3 6\n1 2 5 10\n1 2 3 4 6 12\n"
+      },
+      {
+        "input": "4\n9 8 18\n",
+        "expected": "1 3 9\n1 2 4 8\n1 2 3 6 9 18\n"
+      },
+      {
+        "input": "4\n3 5 15\n",
+        "expected": "1 3\n1 5\n1 3 5 15\n"
+      },
+      {
+        "input": "3\n3 11 13\n",
+        "expected": "1 3\n1 11\n1 13\n"
+      },
+      {
+        "input": "4\n3 6 12\n",
+        "expected": "1 3\n1 2 3 6\n1 2 3 4 6 12\n"
+      },
+      {
+        "input": "3\n9 6 13\n",
+        "expected": "1 3 9\n1 2 3 6\n1 13\n"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "title": "欧拉函数",
+    "difficulty": "中等",
+    "category": "数学知识-欧拉函数",
+    "description": "给定 n 个整数 a_i，求每个数的欧拉函数 φ(a_i)（1~a_i 中与 a_i 互质的数的个数）。",
+    "input_format": "第一行 n (1≤n≤100)。\n第二行 n 个整数 (1≤a_i≤2×10^9)。",
+    "output_format": "每行输出 φ(a_i)。",
+    "sample_input": "3\n3 6 8",
+    "sample_output": "2\n2\n4",
+    "hint": "φ(n)=n×Π(1-1/p)，p 为 n 的所有质因子。用试除法分解质因数即可。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    for x in a:\n        res = x\n        i = 2\n        while i*i <= x:\n            if x%i==0:\n                res = res//i*(i-1)\n                while x%i==0: x//=i\n            i+=1\n        if x>1: res = res//x*(x-1)\n        print(res)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n3 6 8\n",
+        "expected": "2\n2\n4"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        long long x;\n        cin >> x;\n        long long res = x;  // 初始化结果为 x\n        // 质因数分解，i 从 2 到 sqrt(x)\n        for (long long i = 2; i * i <= x; i++) {\n            if (x % i == 0) {\n                // i 是质因数，更新结果：res = res / i * (i-1)\n                res = res / i * (i - 1);\n                // 将 x 中的 i 因子全部去除\n                while (x % i == 0) {\n                    x /= i;\n                }\n            }\n        }\n        // 如果最后 x 大于 1，说明还有一个大于 sqrt(原 x) 的质因子\n        if (x > 1) {\n            res = res / x * (x - 1);\n        }\n        cout << res << endl;\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n4 11 8\n",
+        "expected": "2\n10\n4\n"
+      },
+      {
+        "input": "4\n3 9 8\n",
+        "expected": "2\n6\n4\n"
+      },
+      {
+        "input": "3\n3 7 8\n",
+        "expected": "2\n6\n4\n"
+      },
+      {
+        "input": "2\n3 6 11\n",
+        "expected": "2\n2\n10\n"
+      },
+      {
+        "input": "2\n4 3 5\n",
+        "expected": "2\n2\n4\n"
+      },
+      {
+        "input": "2\n2 6 11\n",
+        "expected": "1\n2\n10\n"
+      },
+      {
+        "input": "4\n3 6 10\n",
+        "expected": "2\n2\n4\n"
+      },
+      {
+        "input": "4\n3 8 8\n",
+        "expected": "2\n4\n4\n"
+      },
+      {
+        "input": "3\n3 6 11\n",
+        "expected": "2\n2\n10\n"
+      },
+      {
+        "input": "2\n3 9 9\n",
+        "expected": "2\n6\n6\n"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "title": "快速幂",
+    "difficulty": "中等",
+    "category": "数学知识-快速幂",
+    "description": "给定 n 组 a b p，求 a^b mod p 的值。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行每行 a b p (1≤a,p≤2×10^9, 0≤b≤2×10^9)。",
+    "output_format": "每行输出 a^b mod p。",
+    "sample_input": "3\n2 3 5\n3 2 7\n10 9 1000000007",
+    "sample_output": "3\n2\n1000000000",
+    "hint": "快速幂：b 的二进制分解，res=1, while b: if b&1: res=res*a%p; a=a*a%p; b>>=1。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    import sys; input=sys.stdin.readline\n    n = int(input())\n    for _ in range(n):\n        a,b,p = map(int, input().split())\n        res = 1\n        while b:\n            if b&1: res = res*a%p\n            a = a*a%p; b >>= 1\n        print(res)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n2 3 5\n3 2 7\n10 9 1000000007\n",
+        "expected": "3\n2\n1000000000"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    while (n--) {\n        long long a, b, p;\n        cin >> a >> b >> p;\n        // 快速幂计算 a^b mod p\n        long long res = 1 % p;   // 处理 p=1 的情况\n        long long base = a % p;  // 先取模避免溢出\n        while (b) {\n            if (b & 1) {        // 当前二进制位为1\n                res = res * base % p;\n            }\n            base = base * base % p;\n            b >>= 1;            // 右移一位\n        }\n        cout << res << endl;\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "1\n3 3 3\n3 2 4\n10 6 963648567\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4\n1 4 4\n4 2 7\n8 11 933749150\n",
+        "expected": "1\n2\n186192242\n"
+      },
+      {
+        "input": "3\n2 3 4\n3 2 6\n5 10 1110438631\n",
+        "expected": "0\n3\n9765625\n"
+      },
+      {
+        "input": "2\n2 4 7\n4 2 7\n12 13 1476629478\n",
+        "expected": "2\n2\n"
+      },
+      {
+        "input": "1\n2 2 6\n3 2 6\n6 9 1300137080\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "4\n1 4 6\n4 2 5\n14 7 1029414722\n",
+        "expected": "1\n1\n105413504\n"
+      },
+      {
+        "input": "2\n2 3 5\n3 2 5\n8 11 862514193\n",
+        "expected": "3\n4\n"
+      },
+      {
+        "input": "4\n1 3 3\n3 2 4\n6 9 744741873\n",
+        "expected": "1\n1\n10077696\n"
+      },
+      {
+        "input": "4\n1 1 3\n3 2 5\n8 7 1362077629\n",
+        "expected": "1\n4\n2097152\n"
+      },
+      {
+        "input": "3\n1 3 5\n3 2 8\n5 9 1393599905\n",
+        "expected": "1\n1\n1953125\n"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "title": "扩展欧几里得",
+    "difficulty": "中等",
+    "category": "数学知识-扩展欧几里得算法",
+    "description": "给定 a b，求一组 x y 使得 ax+by=gcd(a,b)。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行每行 a b。",
+    "output_format": "每行输出 x y（|x|,|y|≤10^9 且为一组解即可）。",
+    "sample_input": "2\n4 6\n8 12",
+    "sample_output": "-1 1\n-1 1",
+    "hint": "exgcd(a,b)：若 b=0 则 x=1,y=0。否则递归求 exgcd(b,a%b)，再 x,y=y,x-(a//b)*y。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import sys; input=sys.stdin.readline\ndef exgcd(a,b):\n    if b==0: return 1,0,a\n    x,y,g = exgcd(b,a%b)\n    return y,x-(a//b)*y,g\ndef main():\n    n = int(input())\n    for _ in range(n):\n        a,b = map(int, input().split())\n        x,y,g = exgcd(a,b)\n        print(x, y)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "2\n4 6\n8 12\n",
+        "expected": "-1 1\n-1 1"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\n// 扩展欧几里得算法：求 ax + by = gcd(a,b) 的一组整数解\n// 通过引用返回 x, y, g (g = gcd(a,b))\nvoid exgcd(long long a, long long b, long long &x, long long &y, long long &g) {\n    if (b == 0) {  // 递归终止条件：b=0时，gcd(a,0)=a，解为 x=1, y=0\n        x = 1;\n        y = 0;\n        g = a;\n        return;\n    }\n    // 递归调用 exgcd(b, a % b)，得到临时解 y, x (注意参数位置交换)\n    exgcd(b, a % b, y, x, g);\n    // 回溯更新当前层的 y: y -= (a / b) * x\n    y -= (a / b) * x;\n}\n\nint main() {\n    ios_base::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int n;\n    cin >> n;\n    while (n--) {\n        long long a, b;\n        cin >> a >> b;\n        long long x, y, g;  // g 用于接收最大公约数，但题目只要求输出 x, y\n        exgcd(a, b, x, y, g);\n        cout << x << \" \" << y << \"\\n\";\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n5 7\n6 6\n",
+        "expected": "3 -2\n0 1\n"
+      },
+      {
+        "input": "3\n5 5\n8 16\n",
+        "expected": "0 1\n1 0\n"
+      },
+      {
+        "input": "2\n5 7\n8 16\n",
+        "expected": "3 -2\n1 0\n"
+      },
+      {
+        "input": "3\n9 6\n11 10\n",
+        "expected": "1 -1\n1 -1\n"
+      },
+      {
+        "input": "2\n5 6\n8 14\n",
+        "expected": "-1 1\n2 -1\n"
+      },
+      {
+        "input": "1\n2 3\n10 10\n",
+        "expected": "-1 1\n"
+      },
+      {
+        "input": "3\n4 6\n9 14\n",
+        "expected": "-1 1\n-3 2\n"
+      },
+      {
+        "input": "1\n4 9\n6 15\n",
+        "expected": "-2 1\n"
+      },
+      {
+        "input": "2\n5 6\n8 16\n",
+        "expected": "-1 1\n1 0\n"
+      },
+      {
+        "input": "1\n4 5\n4 14\n",
+        "expected": "-1 1\n"
+      }
+    ]
+  },
+  {
+    "id": 26,
+    "title": "中国剩余定理",
+    "difficulty": "较难",
+    "category": "数学知识-中国剩余定理",
+    "description": "给定 k 组 m_i, r_i，求最小的非负整数 x 满足 x≡r_i(mod m_i)，且 m_i 两两互质。",
+    "input_format": "第一行 k (1≤k≤10)。\n接下来 k 行每行 m_i r_i (1≤m_i≤1000, 0≤r_i<m_i)。",
+    "output_format": "输出 x 的最小非负整数解。",
+    "sample_input": "3\n3 2\n5 3\n7 2",
+    "sample_output": "23",
+    "hint": "设 M=Πm_i，M_i=M/m_i，t_i 为 M_i 模 m_i 的逆元。则 x=Σ(r_i×M_i×t_i) mod M。逆元用 exgcd 求。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import sys; input=sys.stdin.readline\ndef exgcd(a,b):\n    if b==0: return 1,0,a\n    x,y,g = exgcd(b,a%b)\n    return y,x-(a//b)*y,g\ndef main():\n    k = int(input())\n    m,r = [],[]\n    M = 1\n    for _ in range(k):\n        mi,ri = map(int, input().split())\n        m.append(mi); r.append(ri); M *= mi\n    ans = 0\n    for mi,ri in zip(m,r):\n        Mi = M//mi\n        ti,_,_ = exgcd(Mi, mi)\n        ans += ri*Mi*ti\n    print(ans % M)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n3 2\n5 3\n7 2\n",
+        "expected": "23"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <cstdio>\nusing namespace std;\n\n// 扩展欧几里得算法，求解 ax + by = gcd(a,b)，返回 gcd 及系数 x, y\nvoid exgcd(__int128 a, __int128 b, __int128 &x, __int128 &y, __int128 &g) {\n    if (b == 0) {\n        x = 1;\n        y = 0;\n        g = a;\n        return;\n    }\n    exgcd(b, a % b, y, x, g);\n    y -= (a / b) * x;\n}\n\n// 输出 __int128 类型的整数（因为 cout 不支持直接输出）\nvoid print(__int128 x) {\n    if (x < 0) {\n        putchar('-');\n        x = -x;\n    }\n    if (x > 9) print(x / 10);\n    putchar((int)(x % 10) + '0');\n}\n\nint main() {\n    int k;\n    cin >> k;\n    vector<int> m(k), r(k);\n    __int128 M = 1;  // 所有模数的乘积\n    for (int i = 0; i < k; ++i) {\n        cin >> m[i] >> r[i];\n        M *= m[i];\n    }\n    __int128 ans = 0;\n    for (int i = 0; i < k; ++i) {\n        __int128 Mi = M / m[i];          // 除当前模数外的乘积\n        __int128 ti, y, g;               // ti 是 Mi 模 m[i] 的逆元\n        exgcd(Mi, (__int128)m[i], ti, y, g);\n        // 将逆元调整到 [0, m[i]) 范围内（g 必为 1，因为模数互质）\n        ti = (ti % m[i] + m[i]) % m[i];\n        // 累加当前项：ri * Mi * ti\n        ans += (__int128)r[i] * Mi * ti;\n    }\n    ans %= M;  // 取最小非负解\n    // 若 ans 为负（一般不会），则加 M 使其为正\n    if (ans < 0) ans += M;\n    print(ans);\n    cout << endl;\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "3\n1 2\n6 3\n6 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "2\n2 2\n3 3\n7 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "3\n3 2\n6 2\n6 3\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "1\n5 1\n1 6\n7 0\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "1\n1 2\n7 3\n7 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "1\n7 5\n6 1\n7 2\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "0\n6 1\n3 3\n7 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "1\n1 7\n6 3\n6 4\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "0\n6 1\n6 3\n7 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "0\n4 3\n4 4\n7 2\n",
+        "expected": "0\n"
+      }
+    ]
+  },
+  {
+    "id": 27,
+    "title": "高斯消元解线性方程组",
+    "difficulty": "较难",
+    "category": "数学知识-高斯消元",
+    "description": "解 n 元线性方程组。唯一解输出每变量值（保留两位小数），无解输出 No solution，无穷解输出 Infinite solutions。",
+    "input_format": "第一行 n (1≤n≤50)。\n接下来 n 行每行 n+1 个浮点数（最后一个是常数项）。",
+    "output_format": "唯一解则每行输出 x_i=值；否则输出对应信息。",
+    "sample_input": "3\n1 1 1 6\n0 2 5 -4\n2 5 -1 27",
+    "sample_output": "x1=5.00\nx2=3.00\nx3=-2.00",
+    "hint": "高斯消元：列主元消去。先化成上三角，再回代求解。无解：出现 0=非零。无穷解：出现 0=0。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = [list(map(float, input().split())) for _ in range(n)]\n    for col in range(n):\n        mx = max(range(col,n), key=lambda i: abs(a[i][col]))\n        if abs(a[mx][col])<1e-8: continue\n        a[col],a[mx] = a[mx],a[col]\n        for i in range(col+1,n):\n            t = a[i][col]/a[col][col]\n            for j in range(col,n+1):\n                a[i][j] -= t*a[col][j]\n    # 回代\n    res = [0]*n\n    no = False\n    for i in range(n-1,-1,-1):\n        if abs(a[i][i])<1e-8:\n            if abs(a[i][n])>1e-8:\n                print(\"No solution\"); return\n            else: no = True; continue\n        s = a[i][n]\n        for j in range(i+1,n):\n            s -= a[i][j]*res[j]\n        res[i] = s/a[i][i]\n    if no: print(\"Infinite solutions\"); return\n    for i in range(n):\n        print(f\"x{i+1}={res[i]:.2f}\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n1 1 1 6\n0 2 5 -4\n2 5 -1 27\n",
+        "expected": "x1=5.00\nx2=3.00\nx3=-2.00"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <cmath>\n#include <iomanip>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<vector<double>> a(n, vector<double>(n + 1));\n    for (int i = 0; i < n; ++i)\n        for (int j = 0; j <= n; ++j)\n            cin >> a[i][j];\n\n    const double eps = 1e-8;\n\n    // 列主元消元\n    for (int col = 0; col < n; ++col) {\n        // 从当前行到最后一行中找该列绝对值最大的行\n        int mx = col;\n        for (int i = col + 1; i < n; ++i)\n            if (fabs(a[i][col]) > fabs(a[mx][col]))\n                mx = i;\n        // 如果最大绝对值几乎为零，跳过该列（该列对应的变量视为自由变量）\n        if (fabs(a[mx][col]) < eps)\n            continue;\n        // 交换到当前行\n        swap(a[col], a[mx]);\n        // 消去下面所有行该列的元素\n        for (int i = col + 1; i < n; ++i) {\n            double t = a[i][col] / a[col][col];\n            for (int j = col; j <= n; ++j)\n                a[i][j] -= t * a[col][j];\n        }\n    }\n\n    // 回代\n    vector<double> res(n, 0.0);\n    bool infinite = false;\n    for (int i = n - 1; i >= 0; --i) {\n        if (fabs(a[i][i]) < eps) {\n            // 主元为零，检查常数项\n            if (fabs(a[i][n]) > eps) {\n                cout << \"No solution\" << endl;\n                return 0;\n            } else {\n                infinite = true;\n                continue; // 自由变量，不赋值\n            }\n        }\n        double s = a[i][n];\n        for (int j = i + 1; j < n; ++j)\n            s -= a[i][j] * res[j];\n        res[i] = s / a[i][i];\n    }\n\n    if (infinite) {\n        cout << \"Infinite solutions\" << endl;\n        return 0;\n    }\n\n    cout << fixed << setprecision(2);\n    for (int i = 0; i < n; ++i)\n        cout << \"x\" << i + 1 << \"=\" << res[i] << endl;\n\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "3\n1 1 1 9\n1 1 4 -3\n2 5 0 15\n",
+        "expected": "x1=16.67\nx2=-3.67\nx3=-4.00\n"
+      },
+      {
+        "input": "3\n1 1 1 4\n0 1 3 -2\n2 5 0 36\n",
+        "expected": "x1=-0.18\nx2=7.27\nx3=-3.09\n"
+      },
+      {
+        "input": "3\n1 1 1 4\n1 2 6 -4\n2 6 -1 20\n",
+        "expected": "x1=4.35\nx2=1.57\nx3=-1.91\n"
+      },
+      {
+        "input": "3\n1 1 1 7\n1 2 6 -2\n2 5 -1 32\n",
+        "expected": "x1=6.00\nx2=3.50\nx3=-2.50\n"
+      },
+      {
+        "input": "3\n3 1 1 8\n1 3 3 -6\n2 7 -1 33\n",
+        "expected": "x1=3.75\nx2=2.78\nx3=-6.03\n"
+      },
+      {
+        "input": "3\n1 1 1 7\n0 3 3 -5\n1 5 -2 22\n",
+        "expected": "x1=8.67\nx2=1.43\nx3=-3.10\n"
+      },
+      {
+        "input": "3\n8 -1 1 4\n1 0 6 -1\n7 6 -1 20\n",
+        "expected": "x1=0.83\nx2=2.32\nx3=-0.30\n"
+      },
+      {
+        "input": "3\n0 8 -1 4\n1 5 7 -2\n2 7 -1 17\n",
+        "expected": "x1=6.66\nx2=0.32\nx3=-1.46\n"
+      },
+      {
+        "input": "3\n6 6 4 6\n6 6 5 -3\n2 5 4 32\n",
+        "expected": "x1=-11.00\nx2=18.00\nx3=-9.00\n"
+      },
+      {
+        "input": "3\n7 -4 1 7\n0 7 5 -4\n3 5 1 22\n",
+        "expected": "x1=3.65\nx2=3.29\nx3=-5.41\n"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "求组合数 I",
+    "difficulty": "中等",
+    "category": "数学知识-组合计数",
+    "description": "给定 n 组 a b，求 C(a,b) mod (10^9+7)。a,b ≤ 2000。",
+    "input_format": "第一行 n (1≤n≤10^4)。\n接下来 n 行每行 a b (0≤b≤a≤2000)。",
+    "output_format": "每行输出 C(a,b) mod 1e9+7。",
+    "sample_input": "3\n3 1\n5 2\n4 0",
+    "sample_output": "3\n10\n1",
+    "hint": "递推：C[i][j]=C[i-1][j]+C[i-1][j-1]。预处理所有组合数。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "MOD = 10**9+7; N = 2005\nC = [[0]*N for _ in range(N)]\nfor i in range(N):\n    C[i][0]=C[i][i]=1\n    for j in range(1,i):\n        C[i][j]=(C[i-1][j]+C[i-1][j-1])%MOD\ndef main():\n    import sys; input=sys.stdin.readline\n    n = int(input())\n    for _ in range(n):\n        a,b = map(int, input().split())\n        print(C[a][b])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n3 1\n5 2\n4 0\n",
+        "expected": "3\n10\n1"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nconst int MOD = 1e9 + 7;\nconst int N = 2005;\nint C[N][N]; // 组合数表\n\nint main() {\n    // 预处理所有组合数 (a,b ≤ 2000)\n    for (int i = 0; i < N; i++) {\n        C[i][0] = C[i][i] = 1; // 边界：C(i,0)=C(i,i)=1\n        for (int j = 1; j < i; j++) {\n            C[i][j] = (C[i-1][j] + C[i-1][j-1]) % MOD;\n        }\n    }\n\n    int n;\n    cin >> n;\n    while (n--) {\n        int a, b;\n        cin >> a >> b;\n        cout << C[a][b] << '\\n';\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "6\n4 3\n4 2\n4 -1\n",
+        "expected": "4\n6\n0\n"
+      },
+      {
+        "input": "2\n2 2\n6 2\n4 0\n",
+        "expected": "1\n15\n"
+      },
+      {
+        "input": "2\n3 1\n6 2\n4 -1\n",
+        "expected": "3\n15\n"
+      },
+      {
+        "input": "3\n3 2\n3 2\n4 1\n",
+        "expected": "3\n3\n4\n"
+      },
+      {
+        "input": "5\n4 1\n4 3\n4 -1\n",
+        "expected": "4\n4\n0\n"
+      },
+      {
+        "input": "4\n3 3\n7 2\n4 0\n",
+        "expected": "1\n21\n1\n"
+      },
+      {
+        "input": "3\n2 1\n6 2\n6 0\n",
+        "expected": "2\n15\n1\n"
+      },
+      {
+        "input": "2\n3 1\n3 2\n4 1\n",
+        "expected": "3\n3\n"
+      },
+      {
+        "input": "3\n2 1\n3 2\n4 -1\n",
+        "expected": "2\n3\n0\n"
+      },
+      {
+        "input": "3\n4 2\n6 2\n4 0\n",
+        "expected": "6\n15\n1\n"
+      }
+    ]
+  },
+  {
+    "id": 29,
+    "title": "能被整除的数",
+    "difficulty": "中等",
+    "category": "数学知识-容斥原理",
+    "description": "给定 n 和 m 个质数 p_i，求 1~n 中能被至少一个 p_i 整除的数的个数。",
+    "input_format": "第一行 n m (1≤n≤10^9, 1≤m≤16)。\n第二行 m 个不同的质数。",
+    "output_format": "输出个数。",
+    "sample_input": "10 2\n2 3",
+    "sample_output": "7",
+    "hint": "容斥原理：奇加偶减。用位运算枚举所有子集，求子集中所有质数的 lcm，然后 n//lcm。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n,m = map(int, input().split())\n    p = list(map(int, input().split()))\n    ans = 0\n    for mask in range(1, 1<<m):\n        mul = 1; bits = 0\n        for i in range(m):\n            if mask>>i & 1:\n                mul *= p[i]; bits += 1\n                if mul > n: break\n        if mul > n: continue\n        if bits&1: ans += n//mul\n        else: ans -= n//mul\n    print(ans)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "10 2\n2 3\n",
+        "expected": "7"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n, m;\n    cin >> n >> m;\n    vector<int> p(m);\n    for (int i = 0; i < m; ++i) {\n        cin >> p[i];\n    }\n\n    long long ans = 0;\n    // 枚举所有非空子集，用二进制表示\n    for (int mask = 1; mask < (1 << m); ++mask) {\n        long long mul = 1;  // 当前子集中质数的乘积\n        int bits = 0;       // 当前子集中质数的个数\n        bool overflow = false;\n        for (int i = 0; i < m; ++i) {\n            if (mask >> i & 1) {\n                mul *= p[i];\n                bits++;\n                if (mul > n) {  // 乘积超过n，提前退出，后续乘法只会更大\n                    overflow = true;\n                    break;\n                }\n            }\n        }\n        if (overflow) continue;  // 乘积超过n，不参与容斥\n        // 容斥原理：奇数个元素加，偶数个元素减\n        if (bits & 1) {\n            ans += n / mul;\n        } else {\n            ans -= n / mul;\n        }\n    }\n    cout << ans << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "8 2\n1 3\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "13 1\n1 3\n",
+        "expected": "13\n"
+      },
+      {
+        "input": "9 2\n3 3\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "8 2\n2 3\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "7 1\n1 3\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "14 2\n2 3\n",
+        "expected": "9\n"
+      },
+      {
+        "input": "15 1\n2 3\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "10 1\n1 2\n",
+        "expected": "10\n"
+      },
+      {
+        "input": "11 2\n2 3\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "11 1\n2 3\n",
+        "expected": "5\n"
+      }
+    ]
+  },
+  {
+    "id": 30,
+    "title": "Nim游戏",
+    "difficulty": "中等",
+    "category": "数学知识-简单博弈论",
+    "description": "n 堆石子，每堆 a_i 个。两名玩家轮流操作，每次可从一堆中取任意数量的石子（至少1个）。取走最后一个石子者获胜。判断先手是否必胜。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n第二行 n 个整数 a_i。",
+    "output_format": "先手必胜输出 YES，否则 NO。",
+    "sample_input": "3\n1 2 3",
+    "sample_output": "YES",
+    "hint": "Nim 博弈结论：a1⊕a2⊕...⊕an≠0 则先手必胜。因为异或非零时可取走若干石子使异或变为 0。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    xor = 0\n    for x in a: xor ^= x\n    print(\"YES\" if xor else \"NO\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "2\n1 1\n",
+        "expected": "NO"
+      },
+      {
+        "input": "3\n1 2 3\n",
+        "expected": "YES"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;  // 输入石子堆数\n    int xor_sum = 0;\n    for (int i = 0; i < n; i++) {\n        int a;\n        cin >> a;           // 输入每堆石子数量\n        xor_sum ^= a;       // 计算异或和\n    }\n    // 异或和为0则先手必败，否则先手必胜\n    if (xor_sum == 0)\n        cout << \"NO\" << endl;\n    else\n        cout << \"YES\" << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "1\n2 2 2\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "3\n2 2 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "4\n1 2 3\n",
+        "expected": "NO\n"
+      },
+      {
+        "input": "3\n3 2 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "4\n1 4 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "4\n2 2 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "2\n2 1\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "4\n7 6 2\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "8\n5 7 3\n",
+        "expected": "YES\n"
+      },
+      {
+        "input": "7\n2 2 3\n",
+        "expected": "YES\n"
+      }
+    ]
+  },
+  {
+    "id": 31,
+    "title": "01背包问题",
+    "difficulty": "中等",
+    "category": "动态规划-背包问题",
+    "description": "N 件物品，每件选一次，容量 C，求最大价值。",
+    "input_format": "第一行 N C (≤1000)。\n接下来 N 行 w_i v_i。",
+    "output_format": "输出最大价值。",
+    "sample_input": "4 5\n1 2\n2 4\n3 4\n4 5",
+    "sample_output": "8",
+    "hint": "一维 dp[j]=max(dp[j],dp[j-w_i]+v_i)，容量逆序。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    N,C = map(int, input().split())\n    w,v = [],[]\n    for _ in range(N):\n        wi,vi = map(int, input().split())\n        w.append(wi); v.append(vi)\n    dp = [0]*(C+1)\n    for i in range(N):\n        for j in range(C, w[i]-1, -1):\n            dp[j] = max(dp[j], dp[j-w[i]]+v[i])\n    print(dp[C])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4 5\n1 2\n2 4\n3 4\n4 5\n",
+        "expected": "8"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int N, C;\n    cin >> N >> C; // 输入物品数量和背包容量\n    vector<int> w(N), v(N);\n    for (int i = 0; i < N; i++) {\n        cin >> w[i] >> v[i]; // 输入每个物品的重量和价值\n    }\n    // dp[j] 表示容量为 j 的背包能获得的最大价值\n    vector<int> dp(C + 1, 0);\n    // 遍历每个物品\n    for (int i = 0; i < N; i++) {\n        // 逆序遍历容量，确保每个物品只选一次\n        for (int j = C; j >= w[i]; j--) {\n            dp[j] = max(dp[j], dp[j - w[i]] + v[i]);\n        }\n    }\n    cout << dp[C] << endl; // 输出容量为 C 时的最大价值\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2 7\n2 2\n2 6\n3 6\n2 5\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "2 3\n1 1\n2 5\n3 2\n5 5\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "4 5\n1 1\n2 3\n3 2\n4 5\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "1 6\n2 2\n2 5\n2 4\n4 5\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "1 6\n1 2\n2 2\n3 7\n4 5\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "1 3\n1 2\n2 6\n3 4\n4 6\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "3 5\n1 3\n2 2\n3 5\n4 5\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "0 7\n0 5\n3 6\n7 9\n4 5\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "-5 2\n1 7\n7 5\n2 4\n4 7\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "1 6\n8 3\n1 6\n3 6\n8 5\n",
+        "expected": "0\n"
+      }
+    ]
+  },
+  {
+    "id": 32,
+    "title": "数字三角形",
+    "difficulty": "中等",
+    "category": "动态规划-线性DP",
+    "description": "从顶部到底部，每次走正下或右下，求最大路径和。",
+    "input_format": "第一行 n (≤500)。\n接下来 n 行第 i 行 i 个整数。",
+    "output_format": "输出最大路径和。",
+    "sample_input": "4\n1\n2 3\n4 5 6\n7 8 9 10",
+    "sample_output": "20",
+    "hint": "自底向上：dp[i][j] += max(dp[i+1][j], dp[i+1][j+1])。可原地修改。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = [list(map(int, input().split())) for _ in range(n)]\n    for i in range(n-2, -1, -1):\n        for j in range(len(a[i])):\n            a[i][j] += max(a[i+1][j], a[i+1][j+1])\n    print(a[0][0])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4\n1\n2 3\n4 5 6\n7 8 9 10\n",
+        "expected": "20"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    // 创建二维数组，存储数字三角形\n    vector<vector<int>> a(n);\n    for (int i = 0; i < n; ++i) {\n        a[i].resize(i + 1);  // 第 i 行有 i+1 个数\n        for (int j = 0; j <= i; ++j) {\n            cin >> a[i][j];\n        }\n    }\n    // 自底向上动态规划：从倒数第二行开始，选择下一行相邻两个数的较大值累加\n    for (int i = n - 2; i >= 0; --i) {\n        for (int j = 0; j <= i; ++j) {\n            a[i][j] += max(a[i + 1][j], a[i + 1][j + 1]);\n        }\n    }\n    // 输出顶部元素，即最大路径和\n    cout << a[0][0] << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n1\n2 6\n4 7 6\n7 11 9 12\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "3\n1\n1 3\n4 3 6\n5 8 8 12\n",
+        "expected": "10\n"
+      },
+      {
+        "input": "3\n1\n2 4\n4 4 6\n6 14 6 10\n",
+        "expected": "11\n"
+      },
+      {
+        "input": "2\n1\n2 3\n4 4 4\n4 5 7 6\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "3\n2\n2 3\n4 6 6\n7 10 6 10\n",
+        "expected": "11\n"
+      },
+      {
+        "input": "4\n1\n3 3\n4 5 5\n5 8 9 12\n",
+        "expected": "21\n"
+      },
+      {
+        "input": "3\n1\n1 3\n4 4 4\n6 7 11 12\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "2\n2\n6 2\n7 4 4\n6 7 11 13\n",
+        "expected": "8\n"
+      },
+      {
+        "input": "3\n-1\n0 5\n5 8 5\n6 12 6 11\n",
+        "expected": "12\n"
+      },
+      {
+        "input": "2\n6\n1 3\n7 6 6\n5 8 9 14\n",
+        "expected": "9\n"
+      }
+    ]
+  },
+  {
+    "id": 33,
+    "title": "石子合并",
+    "difficulty": "中等",
+    "category": "动态规划-区间DP",
+    "description": "n 堆石子排成一排，相邻两堆可合并，代价为两堆重量之和。求合并成一堆的最小总代价。",
+    "input_format": "第一行 n (≤300)。\n第二行 n 个整数表示每堆重量。",
+    "output_format": "输出最小总代价。",
+    "sample_input": "4\n1 3 5 2",
+    "sample_output": "22",
+    "hint": "dp[l][r] 表示合并 l~r 的最小代价。dp[l][r]=min(dp[l][k]+dp[k+1][r])+sum[l][r]，枚举断点 k。区间长度从小到大。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = list(map(int, input().split()))\n    s = [0]*(n+1)\n    for i in range(n): s[i+1]=s[i]+a[i]\n    dp = [[0]*(n+1) for _ in range(n+1)]\n    for length in range(2, n+1):\n        for l in range(1, n-length+2):\n            r = l+length-1; dp[l][r]=10**9\n            for k in range(l,r):\n                dp[l][r]=min(dp[l][r],dp[l][k]+dp[k+1][r]+s[r]-s[l-1])\n    print(dp[1][n])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4\n1 3 5 2\n",
+        "expected": "22"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> a(n + 1); // 1-based 存储每堆重量\n    for (int i = 1; i <= n; ++i) cin >> a[i];\n\n    // 计算前缀和，s[i] 表示前 i 堆的总重量\n    vector<long long> s(n + 1, 0);\n    for (int i = 1; i <= n; ++i) s[i] = s[i - 1] + a[i];\n\n    // dp[l][r] 表示合并区间 [l, r] 的最小代价\n    vector<vector<long long>> dp(n + 1, vector<long long>(n + 1, 0));\n\n    // 区间长度从 2 到 n\n    for (int len = 2; len <= n; ++len) {\n        for (int l = 1; l + len - 1 <= n; ++l) { // 左端点\n            int r = l + len - 1;                 // 右端点\n            dp[l][r] = 1e18;                     // 初始化为一个很大的数\n            // 枚举分割点 k，将区间分为 [l, k] 和 [k+1, r]\n            for (int k = l; k < r; ++k) {\n                long long cost = dp[l][k] + dp[k + 1][r] + (s[r] - s[l - 1]);\n                if (cost < dp[l][r]) dp[l][r] = cost;\n            }\n        }\n    }\n\n    cout << dp[1][n] << endl; // 输出合并全部石子堆的最小代价\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\n1 3 7 1\n",
+        "expected": "24\n"
+      },
+      {
+        "input": "3\n1 3 5 3\n",
+        "expected": "13\n"
+      },
+      {
+        "input": "1\n2 3 5 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "2\n2 2 4 2\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "1\n1 3 7 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4\n1 3 5 1\n",
+        "expected": "20\n"
+      },
+      {
+        "input": "3\n1 3 4 3\n",
+        "expected": "12\n"
+      },
+      {
+        "input": "1\n5 6 6 2\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4\n1 4 7 2\n",
+        "expected": "28\n"
+      },
+      {
+        "input": "3\n-1 7 6 2\n",
+        "expected": "18\n"
+      }
+    ]
+  },
+  {
+    "id": 34,
+    "title": "整数划分",
+    "difficulty": "中等",
+    "category": "动态规划-计数类DP",
+    "description": "一个正整数 n 可以表示成若干正整数之和，求不同的划分方案数（顺序不同算同一种）。模 10^9+7。",
+    "input_format": "一行 n (1≤n≤1000)。",
+    "output_format": "输出方案数。",
+    "sample_input": "5",
+    "sample_output": "7",
+    "hint": "完全背包思想：dp[j]=(dp[j]+dp[j-i])%MOD。i 从 1 到 n，j 从 i 到 n。初始化 dp[0]=1。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "MOD=10**9+7\ndef main():\n    n = int(input())\n    dp = [0]*(n+1); dp[0]=1\n    for i in range(1,n+1):\n        for j in range(i,n+1):\n            dp[j] = (dp[j] + dp[j-i]) % MOD\n    print(dp[n])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "5\n",
+        "expected": "7"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nconst int MOD = 1e9 + 7;\n\nint main() {\n    int n;\n    cin >> n;\n    // dp[j] 表示整数 j 的划分方案数\n    int dp[1001] = {0};\n    dp[0] = 1;  // 0 只有一种划分（空集）\n    // 完全背包：依次考虑每个数 i\n    for (int i = 1; i <= n; i++) {\n        for (int j = i; j <= n; j++) {\n            dp[j] = (dp[j] + dp[j - i]) % MOD;\n        }\n    }\n    cout << dp[n] << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "7\n",
+        "expected": "15\n"
+      },
+      {
+        "input": "3\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "6\n",
+        "expected": "11\n"
+      },
+      {
+        "input": "4\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "2\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "8\n",
+        "expected": "22\n"
+      },
+      {
+        "input": "9\n",
+        "expected": "30\n"
+      },
+      {
+        "input": "5\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "1\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "13\n",
+        "expected": "101\n"
+      }
+    ]
+  },
+  {
+    "id": 35,
+    "title": "计数问题",
+    "difficulty": "较难",
+    "category": "动态规划-数位统计DP",
+    "description": "给定两个整数 a b，求 a~b 之间所有数字中 0~9 每个数码出现的次数。",
+    "input_format": "多组输入，每行 a b，以 0 0 结束。a,b≤2×10^9。",
+    "output_format": "每组输出一行 10 个整数，表示 0~9 的出现次数。",
+    "sample_input": "1 10\n44 497\n0 0",
+    "sample_output": "1 2 1 1 1 1 1 1 1 1\n85 185 185 185 190 96 96 96 95 93",
+    "hint": "数位 DP：分别统计 1~x 中每个数码出现次数。按位讨论，考虑当前位之前的数、当前位、之后的数三种情况。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def count(n, x):\n    if n < 0: return 0\n    res = 0; i = 1\n    while i <= n:\n        high = n//(i*10)\n        cur = n//i%10\n        low = n%i\n        if x:\n            res += high*i\n        else:\n            if high: res += (high-1)*i\n        if cur > x:\n            if x or high: res += i\n        elif cur == x:\n            if x or high: res += low+1\n        i *= 10\n    return res\ndef main():\n    while True:\n        a,b = map(int, input().split())\n        if a==b==0: break\n        if a>b: a,b=b,a\n        out = [str(count(b,i)-count(a-1,i)) for i in range(10)]\n        print(\" \".join(out))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "1 10\n44 497\n0 0\n",
+        "expected": "1 2 1 1 1 1 1 1 1 1\n85 185 185 185 190 96 96 96 95 93"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\n// 计算 1 到 n 中数码 x 出现的次数\nlong long count(int n, int x) {\n    if (n < 0) return 0;\n    long long res = 0;\n    long long i = 1;\n    while (i <= n) {\n        long long high = n / (i * 10);   // 当前位的高位部分\n        int cur = (n / i) % 10;          // 当前位的数字\n        long long low = n % i;           // 当前位的低位部分\n        if (x != 0) {\n            // x 非 0 的情况，统计高位贡献\n            res += high * i;\n            if (cur > x) res += i;\n            else if (cur == x) res += low + 1;\n        } else {\n            // x == 0 的情况，高位不能为 0，需要特殊处理\n            if (high > 0) {\n                res += (high - 1) * i;   // 高位从 1 到 high-1 时，低位任意\n                if (cur > 0) res += i;    // 高位等于 high 且当前位 > 0\n                else if (cur == 0) res += low + 1; // 当前位等于 0\n            }\n        }\n        i *= 10;\n    }\n    return res;\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int a, b;\n    while (cin >> a >> b) {\n        if (a == 0 && b == 0) break;\n        if (a > b) swap(a, b);\n        for (int i = 0; i < 10; i++) {\n            long long cnt = count(b, i) - count(a - 1, i);\n            cout << cnt;\n            if (i < 9) cout << ' ';\n        }\n        cout << '\\n';\n    }\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "1 12\n63 561\n-1 0\n",
+        "expected": "1 5 2 1 1 1 1 1 1 1\n100 200 199 200 200 162 99 100 100 100\n0 0 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "1 6\n61 652\n0 0\n",
+        "expected": "0 1 1 1 1 1 1 0 0 0\n119 220 220 219 219 212 171 119 119 119\n"
+      },
+      {
+        "input": "1 15\n65 517\n1 1\n",
+        "expected": "1 8 2 2 2 2 1 1 1 1\n95 193 185 185 185 104 91 96 95 95\n0 1 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "1 11\n31 484\n-1 0\n",
+        "expected": "1 4 1 1 1 1 1 1 1 1\n85 186 186 195 181 95 95 95 90 85\n0 0 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "2 15\n39 63-1\n-1 0\n",
+        "expected": "1 7 2 2 2 2 1 1 1 1\n"
+      },
+      {
+        "input": "1 9\n49 519\n-1 0\n",
+        "expected": "0 1 1 1 1 1 1 1 1 1\n97 197 187 187 188 117 97 97 97 98\n0 0 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "2 15\n51 484\n1 0\n",
+        "expected": "1 7 2 2 2 2 1 1 1 1\n83 184 184 184 169 92 93 93 88 83\n0 1 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "2 10\n52 565\n0 0\n",
+        "expected": "1 1 1 1 1 1 1 1 1 1\n101 201 202 202 202 176 107 101 101 101\n"
+      },
+      {
+        "input": "1 11\n26 322\n1 0\n",
+        "expected": "1 4 1 1 1 1 1 1 1 1\n60 160 157 82 59 59 60 60 60 60\n0 1 0 0 0 0 0 0 0 0\n"
+      },
+      {
+        "input": "0 13\n50 340\n1 -1\n",
+        "expected": "1 6 2 2 1 1 1 1 1 1\n60 159 159 100 50 59 59 59 59 59\n0 1 0 0 0 0 0 0 0 0\n"
+      }
+    ]
+  },
+  {
+    "id": 36,
+    "title": "最短Hamilton路径",
+    "difficulty": "较难",
+    "category": "动态规划-状态压缩DP",
+    "description": "给定 n 个点的带权无向图，求从 0 出发经过所有点恰好一次再回到 0 的最短路径。",
+    "input_format": "第一行 n (2≤n≤12)。\n接下来 n 行每行 n 个整数表示邻接矩阵（i→j 距离）。",
+    "output_format": "输出最短路径长度。",
+    "sample_input": "4\n0 2 1 3\n2 0 4 1\n1 4 0 2\n3 1 2 0",
+    "sample_output": "6",
+    "hint": "dp[mask][j] 表示当前状态 mask 下最后在 j 点的最短路径。mask 用二进制表示已访问的点。dp[1<<j][j]=a[0][j]；转移 dp[mask][j]=min(dp[mask'][k]+a[k][j])。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = [list(map(int, input().split())) for _ in range(n)]\n    INF = 10**9\n    dp = [[INF]*n for _ in range(1<<n)]\n    dp[1][0] = 0\n    for mask in range(1, 1<<n):\n        for j in range(n):\n            if not mask>>j & 1: continue\n            for k in range(n):\n                if mask>>k & 1:\n                    dp[mask][j] = min(dp[mask][j], dp[mask^(1<<j)][k]+a[k][j])\n    print(dp[(1<<n)-1][0])\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4\n0 2 1 3\n2 0 4 1\n1 4 0 2\n3 1 2 0\n",
+        "expected": "6"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <climits>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    // 读入邻接矩阵，a[i][j] 表示从 i 到 j 的边权（距离）\n    vector<vector<int>> a(n, vector<int>(n));\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < n; ++j) {\n            cin >> a[i][j];\n        }\n    }\n\n    const int INF = INT_MAX / 2;  // 防止加法溢出\n    int total = 1 << n;            // 状态总数\n    // dp[mask][j]：当前访问过的点集为 mask，且最后停留在 j 的最短路径长度\n    vector<vector<int>> dp(total, vector<int>(n, INF));\n    dp[1][0] = 0;  // 初始状态：只访问了起点 0，最后在 0 的距离为 0\n\n    // 枚举所有状态 mask\n    for (int mask = 1; mask < total; ++mask) {\n        // 枚举当前最后到达的点 j（必须已在 mask 中）\n        for (int j = 0; j < n; ++j) {\n            if (!(mask >> j & 1)) continue;  // j 不在 mask 中则跳过\n            // 枚举前一个点 k（必须也在 mask 中，且 k != j）\n            // 实际上 mask^(1<<j) 表示去掉 j 后的点集\n            int pre_mask = mask ^ (1 << j);\n            for (int k = 0; k < n; ++k) {\n                if (!(pre_mask >> k & 1)) continue;  // k 不在前一个点集中\n                // 从状态 (pre_mask, k) 转移而来，加上边 k->j\n                dp[mask][j] = min(dp[mask][j], dp[pre_mask][k] + a[k][j]);\n            }\n        }\n    }\n\n    // 最终要求遍历所有点且回到起点 0，即 mask = (1<<n)-1，且最后在 0\n    cout << dp[(1 << n) - 1][0] << endl;\n\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "4\n-1 1 1 3\n2 -1 3 1\n1 3 1 2\n3 1 2 0\n",
+        "expected": "999999999\n"
+      },
+      {
+        "input": "3\n1 1 1 4\n2 0 6 1\n1 5 0 2\n3 1 2 0\n",
+        "expected": "1000000000\n"
+      },
+      {
+        "input": "2\n1 2 1 3\n2 -1 6 1\n1 4 0 2\n3 1 2 0\n",
+        "expected": "1000000000\n"
+      },
+      {
+        "input": "1\n1 3 2 3\n2 1 6 1\n1 4 0 2\n3 1 2 0\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4\n3 3 2 2\n2 -1 2 1\n1 4 1 2\n3 1 2 1\n",
+        "expected": "1000000000\n"
+      },
+      {
+        "input": "4\n1 1 1 4\n2 1 4 1\n1 4 -1 2\n3 1 2 0\n",
+        "expected": "1000000000\n"
+      },
+      {
+        "input": "4\n1 2 2 2\n2 -1 6 1\n1 5 1 2\n3 1 2 0\n",
+        "expected": "1000000000\n"
+      },
+      {
+        "input": "1\n-2 2 2 2\n2 -1 6 1\n1 3 1 2\n3 1 2 0\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "4\n-4 7 7 2\n2 -10 6 6\n-1 2 1 2\n3 1 2 0\n",
+        "expected": "999999992\n"
+      },
+      {
+        "input": "4\n7 6 4 5\n2 2 7 5\n5 5 4 2\n3 1 2 0\n",
+        "expected": "1000000000\n"
+      }
+    ]
+  },
+  {
+    "id": 37,
+    "title": "没有上司的舞会",
+    "difficulty": "中等",
+    "category": "动态规划-树形DP",
+    "description": "树形结构，每个节点有权值。选择若干节点使权值和最大，且不能同时选一条边相连的两个节点。",
+    "input_format": "第一行 n (1≤n≤6000)。\n第二行 n 个整数表示每个节点的快乐指数。\n接下来 n-1 行每行 l k 表示 k 是 l 的上司（父节点）。",
+    "output_format": "输出最大快乐指数。",
+    "sample_input": "7\n1 1 1 1 1 1 1\n1 3\n2 3\n6 4\n7 4\n4 5\n3 5",
+    "sample_output": "5",
+    "hint": "dp[u][0] 不选 u 时 u 子树的最大值，dp[u][1] 选 u。dp[u][0]+=max(dp[v][0],dp[v][1])；dp[u][1]+=dp[v][0]。从根开始 DFS。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import sys; sys.setrecursionlimit(10000)\ndef main():\n    n = int(input())\n    w = [0]+list(map(int, input().split()))\n    adj = [[] for _ in range(n+1)]\n    has_fa = [False]*(n+1)\n    for _ in range(n-1):\n        l,k = map(int, input().split())\n        adj[k].append(l); has_fa[l]=True\n    root = next(i for i in range(1,n+1) if not has_fa[i])\n    dp0,dp1 = [0]*(n+1),[0]*(n+1)\n    def dfs(u):\n        dp1[u]=w[u]\n        for v in adj[u]:\n            dfs(v)\n            dp0[u] += max(dp0[v],dp1[v])\n            dp1[u] += dp0[v]\n    dfs(root)\n    print(max(dp0[root],dp1[root]))\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "7\n1 1 1 1 1 1 1\n1 3\n2 3\n6 4\n7 4\n4 5\n3 5\n",
+        "expected": "5"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nconst int MAXN = 6005;\nint n;\nint w[MAXN];                 // 每个节点的快乐指数\nvector<int> adj[MAXN];       // 邻接表，存储子节点\nbool has_fa[MAXN];           // 标记节点是否有父节点\nint dp0[MAXN], dp1[MAXN];    // dp0[u] 不选u，dp1[u] 选u 时子树的最大值\n\nvoid dfs(int u) {\n    dp1[u] = w[u];           // 选u时，初始快乐指数为自身\n    dp0[u] = 0;\n    for (int v : adj[u]) {\n        dfs(v);              // 递归处理子节点\n        // 不选u：子节点可选可不选，取最大值\n        dp0[u] += max(dp0[v], dp1[v]);\n        // 选u：子节点只能不选\n        dp1[u] += dp0[v];\n    }\n}\n\nint main() {\n    cin >> n;\n    for (int i = 1; i <= n; ++i)\n        cin >> w[i];\n    // 读入n-1条边，k是l的上司（父节点）\n    for (int i = 1; i < n; ++i) {\n        int l, k;\n        cin >> l >> k;\n        adj[k].push_back(l);  // k是父节点，l是子节点\n        has_fa[l] = true;\n    }\n    // 找到根节点（没有父节点的节点）\n    int root = 1;\n    for (int i = 1; i <= n; ++i) {\n        if (!has_fa[i]) {\n            root = i;\n            break;\n        }\n    }\n    dfs(root);\n    // 输出根节点选或不选的最大值\n    cout << max(dp0[root], dp1[root]) << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "7\n1 1 1 1 1 1 1\n1 2\n2 2\n3 6\n7 5\n2 5\n3 5\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "4\n3 1 1 1 1 1 1\n1 4\n2 3\n4 4\n5 4\n4 5\n3 5\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "7\n6 6 0 4 0 6 3\n-1 0\n7 7\n3 6\n7 5\n2 5\n3 5\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "6\n6 6 0 6 6 4 4\n1 3\n4 1\n3 6\n6 6\n0 5\n3 5\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "6\n6 -8 1 6 7 6 2\n1 2\n2 3\n6 3\n6 4\n4 5\n3 5\n",
+        "expected": "12\n"
+      },
+      {
+        "input": "2\n7 1 2 9 6 -0 1\n1 2\n2 1\n4 4\n6 4\n4 5\n3 5\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "7\n6 0 4 6 6 1 1\n1 2\n2 6\n6 6\n7 7\n4 4\n3 5\n",
+        "expected": "6\n"
+      },
+      {
+        "input": "6\n4 9 2 5 2 2 1\n1 1\n2 2\n6 2\n6 4\n4 5\n3 5\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "7\n1 1 0 7 -7 1 1\n1 6\n7 7\n3 6\n7 6\n2 4\n3 5\n",
+        "expected": "7\n"
+      },
+      {
+        "input": "7\n6 -0 3 8 7 1 1\n1 4\n2 3\n4 4\n5 4\n4 5\n3 5\n",
+        "expected": "1\n"
+      }
+    ]
+  },
+  {
+    "id": 38,
+    "title": "滑雪",
+    "difficulty": "中等",
+    "category": "动态规划-记忆化搜索",
+    "description": "给定 n×m 矩阵，从某格开始每次可向上下左右移动，要求移动方向高度严格递减。求最长能滑的路径长度。",
+    "input_format": "第一行 n m (≤300)。\n接下来 n 行每行 m 个整数表示高度。",
+    "output_format": "输出最长路径长度（格子数）。",
+    "sample_input": "3 3\n1 2 3\n4 5 6\n7 8 9",
+    "sample_output": "5",
+    "hint": "记忆化搜索：f[i][j] 表示从 (i,j) 出发的最长路径。若已计算直接返回，否则向四个低处搜。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "import sys; sys.setrecursionlimit(1000000)\ndef main():\n    n,m = map(int, input().split())\n    h = [list(map(int, input().split())) for _ in range(n)]\n    f = [[0]*m for _ in range(n)]\n    dirs = [(1,0),(-1,0),(0,1),(0,-1)]\n    def dfs(x,y):\n        if f[x][y]: return f[x][y]\n        f[x][y]=1\n        for dx,dy in dirs:\n            nx,ny = x+dx,y+dy\n            if 0<=nx<n and 0<=ny<m and h[nx][ny]<h[x][y]:\n                f[x][y] = max(f[x][y], dfs(nx,ny)+1)\n        return f[x][y]\n    ans = 0\n    for i in range(n):\n        for j in range(m):\n            ans = max(ans, dfs(i,j))\n    print(ans)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3 3\n1 2 3\n4 5 6\n7 8 9\n",
+        "expected": "5"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <algorithm> // for max\nusing namespace std;\n\nconst int MAXN = 305;\nint n, m;\nint h[MAXN][MAXN];   // 存储高度\nint f[MAXN][MAXN];   // 记忆化数组，f[i][j] 表示从 (i,j) 出发的最长路径长度（格子数）\n\n// 方向数组：上、下、左、右\nint dx[4] = {-1, 1, 0, 0};\nint dy[4] = {0, 0, -1, 1};\n\n// DFS 记忆化搜索\nint dfs(int x, int y) {\n    if (f[x][y] != 0) return f[x][y]; // 已计算过，直接返回\n    f[x][y] = 1; // 初始化长度为1（只含自身格子）\n    for (int d = 0; d < 4; ++d) {\n        int nx = x + dx[d], ny = y + dy[d];\n        // 检查边界且高度严格递减\n        if (nx >= 0 && nx < n && ny >= 0 && ny < m && h[nx][ny] < h[x][y]) {\n            f[x][y] = max(f[x][y], dfs(nx, ny) + 1);\n        }\n    }\n    return f[x][y];\n}\n\nint main() {\n    cin >> n >> m;\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            cin >> h[i][j];\n        }\n    }\n    int ans = 0;\n    for (int i = 0; i < n; ++i) {\n        for (int j = 0; j < m; ++j) {\n            ans = max(ans, dfs(i, j)); // 取所有起点的最大值\n        }\n    }\n    cout << ans << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2 3\n1 2 3\n4 3 6\n10 8 7\n",
+        "expected": "4\n"
+      },
+      {
+        "input": "3 3\n1 1 3\n4 6 6\n8 8 13\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "2 3\n1 2 3\n4 9 6\n6 8 9\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "3 3\n1 2 3\n2 5 6\n7 4 8\n",
+        "expected": "5\n"
+      },
+      {
+        "input": "2 2\n2 2 2\n8 3 6\n5 6 9\n",
+        "expected": "3\n"
+      },
+      {
+        "input": "0 7\n7 2 1\n10 9 7\n5 8 9\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "2 3\n3 7 6\n7 3 6\n5 6 9\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "0 5\n1 5 3\n10 9 7\n5 8 9\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "0 7\n1 7 8\n4 9 7\n7 8 9\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "2 1\n1 1 3\n9 5 6\n7 9 14\n",
+        "expected": "2\n"
+      }
+    ]
+  },
+  {
+    "id": 39,
+    "title": "区间选点",
+    "difficulty": "中等",
+    "category": "贪心",
+    "description": "给定 n 个闭区间，在数轴上选择尽量少的点，使得每个区间至少包含一个点。",
+    "input_format": "第一行 n (1≤n≤10^5)。\n接下来 n 行每行 l_i r_i。",
+    "output_format": "输出最少需要选的点数。",
+    "sample_input": "3\n1 3\n2 4\n5 6",
+    "sample_output": "2",
+    "hint": "按右端点排序，每次选择当前区间右端点为点，跳过所有包含该点的区间。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    n = int(input())\n    a = [tuple(map(int, input().split())) for _ in range(n)]\n    a.sort(key=lambda x: x[1])\n    cnt = last = 0\n    for l,r in a:\n        if l > last:\n            cnt += 1\n            last = r\n    print(cnt)\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "3\n1 3\n2 4\n5 6\n",
+        "expected": "2"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<pair<int, int>> intervals(n);\n    for (int i = 0; i < n; i++) {\n        cin >> intervals[i].first >> intervals[i].second;\n    }\n    // 按区间右端点从小到大排序\n    sort(intervals.begin(), intervals.end(), [](const pair<int, int>& a, const pair<int, int>& b) {\n        return a.second < b.second;\n    });\n    int cnt = 0;          // 记录选点数\n    int last = 0;         // 上一个选点的位置（注意：与Python保持一致初始为0）\n    for (const auto& it : intervals) {\n        int l = it.first, r = it.second;\n        // 如果当前区间左端点 > 上一个选点位置，则必须选一个新点（选在当前区间右端点）\n        if (l > last) {\n            cnt++;\n            last = r;\n        }\n    }\n    cout << cnt << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "2\n2 2\n2 4\n5 8\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "3\n1 4\n3 4\n5 6\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "2\n1 3\n2 3\n3 8\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "2\n1 3\n1 4\n5 6\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "3\n1 2\n2 7\n6 6\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "3\n1 3\n2 3\n5 3\n",
+        "expected": "2\n"
+      },
+      {
+        "input": "1\n2 3\n2 2\n3 6\n",
+        "expected": "1\n"
+      },
+      {
+        "input": "0\n4 1\n2 1\n1 9\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "0\n--1 1\n1 3\n5 7\n",
+        "expected": "0\n"
+      },
+      {
+        "input": "3\n5 1\n4 7\n6 6\n",
+        "expected": "2\n"
+      }
+    ]
+  },
+  {
+    "id": 40,
+    "title": "时空复杂度判断",
+    "difficulty": "简单",
+    "category": "时空复杂度分析",
+    "description": "给定 n 的范围（1≤n≤10^5），判断一个时间复杂度为 O(n²) 的算法是否可行（假设每秒执行 10^7 次运算）。若 n=10^5，输出 NO；若 n=1000，输出 YES。若 n=10^4，输出 NO。",
+    "input_format": "第一行 t (1≤t≤10)。\n接下来 t 行每行一个整数 n 和一个字符串「O(n)」「O(n²)」「O(nlogn)」「O(logn)」之一。",
+    "output_format": "每行输出 YES（可行）或 NO（不可行），假设 1 秒内可执行 10^7 次运算。O(n)和O(nlogn)对10^5可行，O(n²)只对n≤3162可行，O(logn)总是可行。",
+    "sample_input": "4\n100000 O(n²)\n1000 O(n²)\n100000 O(n)\n100000 O(nlogn)",
+    "sample_output": "NO\nYES\nYES\nYES",
+    "hint": "估算：O(n)的 n=10^5 → 10^5 次运算 ≤ 10^7 可行。O(n²)的 n=10^5 → 10^10 次运算 > 10^7 不可行。O(nlogn)的 10^5×17≈1.7×10^6 可行。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    t = int(input())\n    for _ in range(t):\n        parts = input().split()\n        n = int(parts[0])\n        comp = parts[1]\n        if comp == 'O(n)':\n            print(\"YES\" if n <= 10**7 else \"NO\")\n        elif comp == 'O(nlogn)':\n            import math\n            print(\"YES\" if n * math.log2(n) <= 10**7 else \"NO\")\n        elif comp == 'O(n²)':\n            print(\"YES\" if n * n <= 10**7 else \"NO\")\n        elif comp == 'O(logn)':\n            print(\"YES\")\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "4\n100000 O(n²)\n1000 O(n²)\n100000 O(n)\n100000 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\n#include <cmath>\n#include <string>\nusing namespace std;\n\nint main() {\n    int t;\n    cin >> t;\n    // 处理 t 个测试用例\n    while (t--) {\n        int n;\n        string comp;\n        cin >> n >> comp;  // 读入 n 和复杂度字符串\n        if (comp == \"O(n)\") {\n            // O(n) 算法每秒能执行 1e7 次，n 必须 ≤ 1e7\n            cout << (n <= 10000000 ? \"YES\" : \"NO\") << endl;\n        } else if (comp == \"O(nlogn)\") {\n            // 计算 n * log2(n)，用 double 防止溢出，与 1e7 比较\n            double val = n * log2(n);\n            cout << (val <= 10000000 ? \"YES\" : \"NO\") << endl;\n        } else if (comp == \"O(n²)\") {\n            // 注意字符串中的 '²' 是特殊字符，但这里直接匹配原始输入\n            // O(n²) 算法 n^2 ≤ 10000000 即可\n            long long nn = (long long)n * n;\n            cout << (nn <= 10000000 ? \"YES\" : \"NO\") << endl;\n        } else if (comp == \"O(logn)\") {\n            // O(log n) 始终可行\n            cout << \"YES\" << endl;\n        }\n    }\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "5\n95423 O(n²)\n1388 O(n²)\n69635 O(n)\n142102 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "5\n131025 O(n²)\n717 O(n²)\n106276 O(n)\n69741 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "3\n124006 O(n²)\n1127 O(n²)\n58887 O(n)\n106341 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\n"
+      },
+      {
+        "input": "6\n117027 O(n²)\n815 O(n²)\n77805 O(n)\n88042 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "5\n84279 O(n²)\n1486 O(n²)\n121564 O(n)\n83493 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "5\n80177 O(n²)\n1374 O(n²)\n116772 O(n)\n113243 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "6\n102254 O(n²)\n1232 O(n²)\n86355 O(n)\n116766 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "4\n58953 O(n²)\n1424 O(n²)\n118098 O(n)\n142533 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "5\n143870 O(n²)\n1483 O(n²)\n108013 O(n)\n91852 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\nYES\n"
+      },
+      {
+        "input": "3\n93442 O(n²)\n1174 O(n²)\n119221 O(n)\n126973 O(nlogn)\n",
+        "expected": "NO\nYES\nYES\n"
+      }
+    ]
+  },
+  {
+    "id": 41,
+    "title": "测试题",
+    "difficulty": "简单",
+    "category": "测试分类",
+    "description": "输入两个整数，输出它们的和",
+    "input_format": "一行两个整数",
+    "output_format": "一行一个整数",
+    "sample_input": "1 2",
+    "sample_output": "3",
+    "hint": "无",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "print(1+1)",
+    "test_cases": [
+      {
+        "input": "1 2",
+        "expected": "3"
+      },
+      {
+        "input": "-5 10",
+        "expected": "5"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // 直接输出 1+1 的结果，与 Python 解法一致\n    cout << 2 << endl;\n    return 0;\n}\n",
+    "hidden_test_cases": [
+      {
+        "input": "1 1",
+        "expected": "2\n"
+      },
+      {
+        "input": "1 3",
+        "expected": "2\n"
+      },
+      {
+        "input": "2 2",
+        "expected": "2\n"
+      },
+      {
+        "input": "3 2",
+        "expected": "2\n"
+      },
+      {
+        "input": "-6 6",
+        "expected": "2\n"
+      },
+      {
+        "input": "-4 13",
+        "expected": "2\n"
+      },
+      {
+        "input": "-3 6",
+        "expected": "2\n"
+      },
+      {
+        "input": "2 4",
+        "expected": "2\n"
+      },
+      {
+        "input": "1 5",
+        "expected": "2\n"
+      },
+      {
+        "input": "-3 13",
+        "expected": "2\n"
+      }
+    ]
+  },
+  {
+    "id": 42,
+    "title": "上传测试题",
+    "difficulty": "中等",
+    "category": "数学-计算",
+    "description": "求两数乘积",
+    "input_format": "两个整数",
+    "output_format": "一个整数",
+    "sample_input": "3 4",
+    "sample_output": "12",
+    "hint": "",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    # code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "test_cases": [
+      {
+        "input": "-2 5",
+        "expected": "-10"
+      },
+      {
+        "input": "3 4",
+        "expected": "12"
+      }
+    ],
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    // 读取两个整数\n    cin >> a >> b;\n    // 计算乘积\n    int product = a * b;\n    // 输出结果\n    cout << product << endl;\n    return 0;\n}",
+    "hidden_test_cases": [
+      {
+        "input": "-2 5\n",
+        "expected": "-10"
+      },
+      {
+        "input": "3 4\n",
+        "expected": "12"
+      }
+    ]
+  },
+  {
+    "id": 43,
+    "title": "简单测试题",
+    "difficulty": "简单",
+    "category": "基础算法-模拟",
+    "description": "给定两个整数 a 和 b，请计算它们的和并输出。",
+    "input_format": "输入一行，包含两个整数 a 和 b，用空格分隔。",
+    "output_format": "输出一个整数，表示 a + b 的值。",
+    "sample_input": "1 2",
+    "sample_output": "3",
+    "hint": "输入的两个整数均在 [-10^9, 10^9] 范围内，输出也在该范围内。",
+    "template_code": "def main():\n    #code here\n    pass\n\n\nif __name__ == '__main__':\n    main()",
+    "solution_code": "def main():\n    # 读取两个整数\n    a, b = map(int, input().split())\n    # 计算和并输出\n    print(a + b)\n\nif __name__ == '__main__':\n    main()",
+    "template_code_cpp": "#include<bits/stdc++.h>\n\nusing namespace std;\n\nint main( )\n{\n    return 0;\n}",
+    "solution_code_cpp": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    // 读取两个整数\n    cin >> a >> b;\n    // 计算和并输出\n    cout << a + b << endl;\n    return 0;\n}",
+    "test_cases": [
+      {
+        "input": "1 2",
+        "expected": "3"
+      },
+      {
+        "input": "-5 10",
+        "expected": "5"
+      },
+      {
+        "input": "0 0",
+        "expected": "0"
+      },
+      {
+        "input": "1000000000 1000000000",
+        "expected": "2000000000"
+      },
+      {
+        "input": "-1000000000 1000000000",
+        "expected": "0"
+      }
+    ]
+  }
+]
